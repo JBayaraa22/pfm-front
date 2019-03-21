@@ -1,0 +1,14 @@
+.no-print{
+    visibility: hidden;
+    display: none;
+    opacity: 0;
+}
+
+div#receipt{
+    margin-top: -50px;
+    visibility: visible !important;
+    display: block !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    font-size: 11px !important;
+}

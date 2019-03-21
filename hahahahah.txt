@@ -1,0 +1,3 @@
+/v1/transaction/category_total?cif=R&date_after=&date_before
+
+/v1/finance/budget_?cif=R&date_after=&date_before

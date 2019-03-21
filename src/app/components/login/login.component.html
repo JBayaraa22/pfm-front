@@ -1,0 +1,18 @@
+<div class="d-flex align-items-center justify-content-center bg-br-primary ht-100v">
+
+  <div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 bg-white rounded shadow-base">
+      <div class="signin-logo tx-center tx-28 tx-bold tx-inverse">
+         <span class="tx-normal">Хувийн санхүүгийн менежер</span></div>
+      <div class="tx-center mg-b-60">Нэр , нууц үгээ оруулж нэвтэрнэ үү.</div>
+      <form [formGroup]="loginForm">
+          <div class="form-group">
+              <input type="text" class="form-control" formControlName="username" placeholder="Нэвтрэх нэр" required minlength="4">
+          </div><!-- form-group -->
+          <div class="form-group">
+              <input type="password" class="form-control" formControlName="password" placeholder="Нууц үг" required minlength="8">
+              <a routerLink="/recover/" class="tx-info tx-12 d-block mg-t-10">Нууц үгээ мартсан уу?</a>
+          </div><!-- form-group -->
+          <button type="submit" (click)="onSubmit()" class="btn btn-info btn-block">Нэвтрэх</button>
+      </form>
+  </div><!-- login-wrapper -->
+</div><!-- d-flex -->

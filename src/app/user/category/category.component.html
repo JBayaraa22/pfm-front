@@ -1,0 +1,120 @@
+
+<div class="br-pagetitle">
+    <i class="fas fa-clipboard-list fa-4x"></i>
+    <div>
+      <h4>Ангилал</h4>
+      <p class="mg-b-0">Төсөв , гүйлгээний ангилалууд.</p>
+    </div>
+  </div>
+  
+  <div class="br-pagebody">
+      <div class="br-section-wrapper">
+          <h6 class="br-section-label">Ангилалын жагсаалт</h6>
+          <p class="br-section-text">бабабабаба.</p>
+          <div class="row row-sm">
+      
+              <table class="table table-hover mg-b-0">
+                  <thead>
+                    <tr>
+                      <th class="wd-10p">Д/д</th>
+                      <th class="wd-35p">Нэр</th>
+                      <th class="wd-35p">Төрөл</th>
+                      <th class="wd-20p">Үйлдэл</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let category of categories; let i = index" data-toggle="modal" data-target="#editCategoryModal" (click)="selectedCategory=category">
+                      <td>{{ i + 1}}</td>
+                      <td>{{ category.name }}</td>
+                      <td *ngIf="category.part=='D'; else creditCategory">
+                        <h6 class="tx-danger"><i class="fas fa-long-arrow-alt-left"></i> Зарлага</h6>
+                      </td>
+                      <ng-template #creditCategory>
+                          <td>
+                              <h6 class="tx-success"><i class="fas fa-long-arrow-alt-right"></i> Орлого</h6>
+                          </td>
+                      </ng-template>
+                      
+                      <td>
+                          <div class="dropdown">
+                              <!-- <a href="javascript:void(0);" class="tx-gray-800 d-inline-block" >
+                                <div class="ht-45 pd-x-20 bd d-flex align-items-center justify-content-center">
+                                  <span class="mg-r-10 tx-13 tx-medium">Үйлдэл</span>
+                                  <i class="fa fa-angle-down mg-l-10"></i>
+                                </div>
+
+                              </a> -->
+                              <a href="javascript:void(0);" data-toggle="dropdown" class="btn btn-dark btn-icon rounded-circle mg-r-5 mg-b-10"><div><i class="fa fa-cog"></i></div></a>
+                              <div class="dropdown-menu pd-10 wd-200">
+                                <nav class="nav nav-style-2 flex-column">
+                                  <a href="javascript:void(0);" class="nav-link" data-toggle="modal" data-target="#editCategoryModal" (click)="selectedCategory=category"><i class="fas fa-edit"></i> Засах</a>
+                                  <a href="javascript:void(0);" class="nav-link"><i class="fas fa-trash"></i> Устгах</a>
+                                </nav>
+                              </div><!-- dropdown-menu -->
+                            </div><!-- dropdown -->
+
+
+                      </td>
+                    </tr>
+                   
+                  </tbody>
+                </table>
+                  </div>
+                </div>
+              
+          
+      </div>
+
+
+      <div id="editCategoryModal" class="modal fade effect-sign">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content bd-0 tx-14">
+              <div class="modal-header pd-x-20">
+                <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Ангилал засах </h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="modal-body pd-20">
+                
+                  <!-- <h3 class="tx-inverse  mg-b-5"> {{selectedCategory?.name}} </h3> -->
+                  <p>Нэр , төрлийг заавал бөглөнө.</p>
+                  <br>
+                  <div class="form-group">
+                    <input type="text" name="name" [(ngModel)]="selectedCategory.name" class="form-control pd-y-12" placeholder="Нэр*">
+                  </div><!-- form-group -->
+                  
+                  <div class="form-group mg-b-20">
+                      <label class="ckbox">
+                          <input type="checkbox" name="translate" [(ngModel)]="selectedCategory.translate">
+                          <span>Орчуулах эсэх</span>
+                      </label>
+                  </div><!-- form-group -->
+                  <div class="form-group mg-b-20">
+                      <label> Төрөл : </label>
+                      <label class="rdiobox">
+                          <input name="type" type="radio" name="type" value="C" [(ngModel)]="selectedCategory.part">
+                          <span>Орлого</span>
+                      </label>
+                      <label class="rdiobox">
+                          <input name="type" type="radio" name="type" value="D"  [(ngModel)]="selectedCategory.part">
+                          <span>Зарлага</span>
+                      </label>
+                  </div>
+
+                  <div class="form-group mg-b-20">
+                    <label>
+                      Толгой Ангилал
+                    </label>
+
+
+                  </div>
+            
+              </div>
+              <div class="modal-footer justify-content-center">
+                  <button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium"><i class="fas fa-save"></i> Нэмэх</button>
+                  <button type="button" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" data-dismiss="modal"> <i class="fas fa-times"></i> Хаах</button>
+              </div>
+            </div>
+          </div><!-- modal-dialog -->
+        </div>

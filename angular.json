@@ -23,9 +23,27 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/all.css",
+              "src/assets/css/perfect-scrollbar.css",
+              "src/assets/css/jquery.switchButton.css",
+              "src/assets/css/jquery.dataTables.css",
+              "src/assets/css/select2.min.css",
+              "src/assets/css/bracket.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/jquery.js",
+              "src/assets/js/popper.js",
+              "src/assets/js/perfect-scrollbar.jquery.js",
+              "src/assets/js/moment.js",
+              "src/assets/js/jquery-ui.js",
+              "src/assets/js/jquery.switchButton.js",
+              "src/assets/js/jquery.peity.js",
+              "src/assets/js/jquery.dataTables.js",
+              "src/assets/js/dataTables.responsive.js",
+              "src/assets/js/bracket.js",
+              "src/assets/js/bootstrap.min.js"
+            ]
           },
           "configurations": {
             "production": {

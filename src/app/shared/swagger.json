@@ -1,0 +1,683 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "PFM API",
+    "description": "PFM-ийн documentation",
+    "contact": {
+      "email": "nyamkhuu_d@golomtbank.com"
+    },
+    "version": "v1"
+  },
+  "host": "192.168.8.115",
+  "schemes": [
+    "https"
+  ],
+  "basePath": "/v1",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/finance/budget/": {
+      "get": {
+        "operationId": "Харилцагчтай холбоотой бүх төслүүдийг харах",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Budget"
+              }
+            }
+          }
+        },
+        "tags": [
+          "finance"
+        ]
+      },
+      "post": {
+        "operationId": "Шинээр төсөв үүсгэх",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Budget"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Budget"
+            }
+          }
+        },
+        "tags": [
+          "finance"
+        ]
+      },
+      "parameters": []
+    },
+    "/finance/budget/{id}/": {
+      "get": {
+        "operationId": "Тодорхой нэг төсвийн дэлгэрэнгүй мэдээллийг харах",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Budget"
+            }
+          }
+        },
+        "tags": [
+          "finance"
+        ]
+      },
+      "put": {
+        "operationId": "Төсөвтэй холбоотой бүх талбарыг шинэчлэх",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Budget"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Budget"
+            }
+          }
+        },
+        "tags": [
+          "finance"
+        ]
+      },
+      "patch": {
+        "operationId": "Төсөвтэй холбоотой зарим нэг талбарыг шинэчлэх",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Budget"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Budget"
+            }
+          }
+        },
+        "tags": [
+          "finance"
+        ]
+      },
+      "delete": {
+        "operationId": "Төсвийг устгах",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "finance"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/transaction/category/": {
+      "get": {
+        "operationId": "Харилцагчтай холбоотой бүх ангилалыг харах",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Category"
+              }
+            }
+          }
+        },
+        "tags": [
+          "transaction"
+        ]
+      },
+      "post": {
+        "operationId": "Ангилал шинээр үүсгэх",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        },
+        "tags": [
+          "transaction"
+        ]
+      },
+      "parameters": []
+    },
+    "/transaction/category/{id}/": {
+      "get": {
+        "operationId": "Тодорхой нэг ангилалын дэлгэрэнгүй мэдээллийг харах",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        },
+        "tags": [
+          "transaction"
+        ]
+      },
+      "put": {
+        "operationId": "Ангилалын мэдээллийг бүхлээр нь шинэчлэх",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        },
+        "tags": [
+          "transaction"
+        ]
+      },
+      "patch": {
+        "operationId": "Ангилалтай холбоотой зарим нэг талбарыг шинэчлэх",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        },
+        "tags": [
+          "transaction"
+        ]
+      },
+      "delete": {
+        "operationId": "Ангилалийг устгах",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "transaction"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/transaction/raw/": {
+      "get": {
+        "operationId": "Харилцагчтай холбоотой бүх гүйлгээг харах",
+        "parameters": [
+          {
+            "name": "date_after",
+            "in": "query",
+            "description": "Тухайн өдөр болон түүнээс хойш",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "date_before",
+            "in": "query",
+            "description": "Тухайн өдөр болон түүнээс өмнө",
+            "required": false,
+            "type": "string"
+          },
+
+          {
+            "name": "tran_part",
+            "in": "query",
+            "description": "Гүйлгээний төрөл (орлого, зарлага)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "account",
+            "in": "query",
+            "description": "Sender account",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "cpty_account",
+            "in": "query",
+            "description": "Receiver account",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "cpty_name",
+            "in": "query",
+            "description": "Receiver name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "categories",
+            "in": "query",
+            "description": "Энэ ангилалын гүйлгээнүүд. Таслалаар ангилалын дугаарыг шиднэ, жишээ нь '1,354,56' гэх мэт.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "uncategorized",
+            "in": "query",
+            "description": "Ангилалгүй гүйлгээ",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "description": "Гүйлгээний утга агуулсан",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "amount_min",
+            "in": "query",
+            "description": "Дүн нь их эсвэл тэнцүү",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "amount_max",
+            "in": "query",
+            "description": "Дүн нь бага эсвэл тэнцүү",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Raw"
+              }
+            }
+          }
+        },
+        "tags": [
+          "transaction"
+        ]
+      },
+      "post": {
+        "operationId": "Шинээр бэлэн мөнгөөр хийсэн гүйлгээг нэмэх",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Raw"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Raw"
+            }
+          }
+        },
+        "tags": [
+          "transaction"
+        ]
+      },
+      "parameters": []
+    },
+    "/transaction/raw/{id}/": {
+      "get": {
+        "operationId": "Тодорхой нэг гүйлгээний дэлгэрэнгүй мэдээллийг харах",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Raw"
+            }
+          }
+        },
+        "tags": [
+          "transaction"
+        ]
+      },
+      "put": {
+        "operationId": "Гүйлгээний мэдээллийг бүхлээр нь шинэчлэх",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Raw"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Raw"
+            }
+          }
+        },
+        "tags": [
+          "transaction"
+        ]
+      },
+      "patch": {
+        "operationId": "Гүйлгээтэй холбоотой зарим нэг талбарыг шинэчлэх",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Raw"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Raw"
+            }
+          }
+        },
+        "tags": [
+          "transaction"
+        ]
+      },
+      "delete": {
+        "operationId": "Гүйлгээг устгах /тооцооллоос хасахтай адил утгатай биш/",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "transaction"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "Budget": {
+      "required": [
+        "name",
+        "start_date",
+        "end_date",
+        "amount"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "title": "Төсвийн нэр",
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1
+        },
+        "start_date": {
+          "title": "Төсөв эхлэх өдөр",
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "title": "Төсөв дуусах өдөр",
+          "type": "string",
+          "format": "date"
+        },
+        "freq": {
+          "title": "Давтамжын төрөл",
+          "type": "string",
+          "enum": [
+            "M",
+            "Q",
+            "Y",
+            "C"
+          ]
+        },
+        "repeat": {
+          "title": "Төсвийг автоматаар давтах эсэх",
+          "type": "boolean"
+        },
+        "amount": {
+          "title": "Төсөвлөсөн дүн",
+          "type": "number"
+        },
+        "category": {
+          "title": "Ангилал",
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "Category": {
+      "required": [
+        "name",
+        "part"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "title": "Ангилалын нэр",
+          "type": "string",
+          "maxLength": 50,
+          "minLength": 1
+        },
+        "translate": {
+          "title": "Ангилалын нэрийг орчуулах шаардлагатай эсэх",
+          "type": "boolean"
+        },
+        "part": {
+          "title": "Ангилалын төрөл",
+          "type": "string",
+          "enum": [
+            "D",
+            "C"
+          ]
+        },
+        "parent": {
+          "title": "Толгой ангилал",
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "Clean": {
+      "title": "Ангилал",
+      "required": [
+        "category"
+      ],
+      "type": "object",
+      "properties": {
+        "category": {
+          "title": "Ангилалын код",
+          "type": "integer"
+        },
+        "name": {
+          "title": "Ангилалын нэр",
+          "type": "string",
+          "minLength": 1
+        },
+        "translate": {
+          "title": "Ангилалын нэрийг орчуулах шаардлагатай эсэх",
+          "type": "boolean"
+        }
+      }
+    },
+    "Raw": {
+      "required": [
+        "tran_part",
+        "tran_date",
+        "amount_mnt"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "deleted": {
+          "title": "Гүйлгээ тооцооллоос хасагдсан эсэх",
+          "type": "boolean"
+        },
+        "tran_part": {
+          "title": "Гүйлгээний төрөл",
+          "type": "string",
+          "enum": [
+            "D",
+            "C"
+          ]
+        },
+        "tran_date": {
+          "title": "Гүйлгээ хийсэн өдөр",
+          "type": "string",
+          "format": "date"
+        },
+        "tran_datetime": {
+          "title": "Tran datetime",
+          "type": "string",
+          "format": "date-time"
+        },
+        "amount_mnt": {
+          "title": "Гүйлгээний дүн",
+          "type": "number"
+        },
+        "description": {
+          "title": "Гүйлгээний утга",
+          "type": "string",
+          "maxLength": 500,
+          "minLength": 1
+        },
+        "send_account": {
+          "title": "Шилжүүлэгчийн дансны дугаар",
+          "type": "string",
+          "maxLength": 100,
+          "x-nullable": true
+        },
+        "send_name": {
+          "title": "Шилжүүлэгчийн нэр",
+          "type": "string",
+          "maxLength": 100,
+          "x-nullable": true
+        },
+        "rec_account": {
+          "title": "Хүлээн авагчын дансны дугаар",
+          "type": "string",
+          "maxLength": 100,
+          "x-nullable": true
+        },
+        "rec_name": {
+          "title": "Хүлээн авагчын нэр",
+          "type": "string",
+          "maxLength": 100,
+          "x-nullable": true
+        },
+        "tran_category": {
+          "$ref": "#/definitions/Clean"
+        }
+      }
+    }
+  }
+}
