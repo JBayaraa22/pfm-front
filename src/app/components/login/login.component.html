@@ -1,18 +1,30 @@
-<div class="d-flex align-items-center justify-content-center bg-br-primary ht-100v">
 
-  <div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 bg-white rounded shadow-base">
-      <div class="signin-logo tx-center tx-28 tx-bold tx-inverse">
-         <span class="tx-normal">Хувийн санхүүгийн менежер</span></div>
-      <div class="tx-center mg-b-60">Нэр , нууц үгээ оруулж нэвтэрнэ үү.</div>
-      <form [formGroup]="loginForm">
-          <div class="form-group">
-              <input type="text" class="form-control" formControlName="username" placeholder="Нэвтрэх нэр" required minlength="4">
-          </div><!-- form-group -->
-          <div class="form-group">
-              <input type="password" class="form-control" formControlName="password" placeholder="Нууц үг" required minlength="8">
-              <a routerLink="/recover/" class="tx-info tx-12 d-block mg-t-10">Нууц үгээ мартсан уу?</a>
-          </div><!-- form-group -->
-          <button type="submit" (click)="onSubmit()" class="btn btn-info btn-block">Нэвтрэх</button>
-      </form>
-  </div><!-- login-wrapper -->
-</div><!-- d-flex -->
+
+
+
+
+          <div class="d-flex align-items-center justify-content-center ht-100v">
+            <img src="../../../assets/images/bg.jpg" class="wd-100p ht-100p object-fit-cover" alt="">
+            <div class="overlay-body bg-black-6 d-flex align-items-center justify-content-center">
+              <div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 rounded bd bd-white-2 bg-black-7">
+                <div class="signin-logo tx-center tx-28 tx-bold tx-black mg-b-25"><img class="wd-200" src="../../../assets/images/logo-long.png"></div>
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                  <div class="form-group">
+                    <input type="text" formControlName="username" class="form-control fc-outline-dark" placeholder="Нэвтрэх нэр">
+                  </div><!-- form-group -->
+                  <div class="form-group">
+                    <input type="password" formControlName="password"  class="form-control fc-outline-dark" placeholder="Нууц үг">
+                  </div><!-- form-group -->
+                  <div class="form-group" *ngIf="loading">
+                      <div class="sk-folding-cube">
+                          <div class="sk-cube1 sk-cube"></div>
+                          <div class="sk-cube2 sk-cube"></div>
+                          <div class="sk-cube4 sk-cube"></div>
+                          <div class="sk-cube3 sk-cube"></div>
+                        </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block">Нэвтрэх</button>
+                </form>
+              </div><!-- login-wrapper -->
+            </div><!-- overlay-body -->
+          </div>

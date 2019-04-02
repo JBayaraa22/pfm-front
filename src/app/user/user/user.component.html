@@ -1,65 +1,234 @@
-<div class="br-logo"><a href="javascript:void(0)"><img width="100%" src="../../../assets/images/golomt-logo.png"></a></div>
-    <div class="br-sideleft overflow-y-auto">
-      <label class="sidebar-label pd-x-10 mg-t-20 op-3">Цэс</label>
-      <ul class="br-sideleft-menu">
-        <li class="br-menu-item">
-          <a routerLink="/user/dashboard" class="br-menu-link"  routerLinkActive="active">
-            <i class="fas fa-home "></i>
-            <span class="menu-item-label"> Эхлэл</span>
-          </a><!-- br-menu-link -->
-        </li><!-- br-menu-item -->
-        <li class="br-menu-item">
-          <a routerLink="/user/category" class="br-menu-link"  routerLinkActive="active">
-            <i class="fas fa-clipboard-list "></i>
-            <span class="menu-item-label"> Ангилал</span>
-          </a><!-- br-menu-link -->
-        </li><!-- br-menu-item -->
-       
-        <li class="br-menu-item">
-          <a routerLink="/user/budget" class="br-menu-link"  routerLinkActive="active">
-            <i class="fas fa-money-bill"></i>
-            <span class="menu-item-label"> Төсөв</span>
-          </a><!-- br-menu-link -->
-        </li><!-- br-menu-item -->
-        <li class="br-menu-item">
-          <a routerLink="/user/transaction" class="br-menu-link"  routerLinkActive="active">
-            <i class="fas fa-credit-card "></i>
-            <span class="menu-item-label"> Гүйлгээ</span>
-          </a><!-- br-menu-link -->
-        </li><!-- br-menu-item -->
-  
-      </ul><!-- br-sideleft-menu -->
-      <br>
-    </div><!-- br-sideleft -->
-    <!-- ########## END: LEFT PANEL ########## -->
+<div class="br-logo"><a href="javascript:void(0)"><img width="100%" src="../../../assets/images/golomt-logo.png"></a>
+</div>
+<div class="br-sideleft overflow-y-auto">
+  <label class="sidebar-label pd-x-10 mg-t-20 op-3">Цэс</label>
+  <ul class="br-sideleft-menu">
+    <li class="br-menu-item">
+      <a routerLink="/user/dashboard" class="br-menu-link" routerLinkActive="active">
+        <i class="fas fa-home "></i>
+        <span class="menu-item-label"> Эхлэл</span>
+      </a><!-- br-menu-link -->
+    </li><!-- br-menu-item -->
+    <li class="br-menu-item">
+      <a routerLink="/user/category" class="br-menu-link" routerLinkActive="active">
+        <i class="fas fa-clipboard-list "></i>
+        <span class="menu-item-label"> Ангилал</span>
+      </a><!-- br-menu-link -->
+    </li><!-- br-menu-item -->
+    <li class="br-menu-item">
+      <a routerLink="/user/transaction" class="br-menu-link" routerLinkActive="active">
+        <i class="fas fa-exchange-alt "></i>
+        <span class="menu-item-label"> Гүйлгээ</span>
+      </a><!-- br-menu-link -->
+    </li><!-- br-menu-item -->
+    <li class="br-menu-item">
+      <a routerLink="/user/budget" class="br-menu-link" routerLinkActive="active">
+        <i class="fas fa-money-bill"></i>
+        <span class="menu-item-label"> Төсөв</span>
+      </a><!-- br-menu-link -->
+    </li><!-- br-menu-item -->
 
-    <!-- ########## START: HEAD PANEL ########## -->
-    <div class="br-header">
-        <div class="br-header-left">
+
+  </ul><!-- br-sideleft-menu -->
+  <br>
+</div><!-- br-sideleft -->
+<!-- ########## END: LEFT PANEL ########## -->
+<!-- ########## START: HEAD PANEL ########## -->
+<div class="br-header">
+  <div class="br-header-left pd-y-20">
+
+    <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href="javascript:void(0);"><i
+          class="fas fa-bars"></i></a></div>
+    <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href="javascript:void(0);"><i
+          class="fas fa-bars"></i></a></div>
+
+    <div class="input-group  wd-200 transition">
+      <input id="start_date" [(ngModel)]="start_date" type="text"
+        class="form-control tx-bold tx-18 fc-datepicker fc-datepicker-color fc-datepicker-primary"
+        placeholder="MM/DD/YYYY">
+    </div>
+    <div class="input-group wd-200 transition">
+      <input id="end_date" type="text" [(ngModel)]="end_date"
+        class="form-control tx-bold tx-18 fc-datepicker fc-datepicker-color fc-datepicker-primary"
+        placeholder="MM/DD/YYYY">
+
+      <div class="pd-y-10 mg-r-10 pd-x-5">
+        <button (click)="setDateRange()" class="btn btn-primary btn-icon rounded-circle"
+          style="width: 40px; height:40px;" type="button"><i class="fa fa-search"></i></button>
+      </div>
+      <span class="input-group-btn">
+
+      </span>
+    </div>
+
+  </div>
+
+  <div class="br-header-right">
+    <nav class="nav">
+
+      <!--<div class="dropdown">
+        <a href="javascript:void(0);" class="nav-link mg-t-5 pos-relative" data-toggle="dropdown"
+          aria-expanded="false">
+          <i class="far fa-clock tx-24"></i>
           
-            <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href="javascript:void(0);"><i class="fas fa-bars"></i></a></div>
-            <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href="javascript:void(0);"><i class="fas fa-bars"></i></a></div>
-            
-          </div>
-      <div class="br-header-right">
-        <nav class="nav">
-          <div class="dropdown">
-            <a (click)="logout()" class="nav-link nav-link-profile" >
-              <span class="logged-name hidden-md-down">Хэрэглэгчийн нэр : {{ currentUser?.username }}</span>
-              <span class="square-10 bg-success"></span>
-            </a>
-          </div><!-- dropdown -->
-        </nav>
-        
-      </div><!-- br-header-right -->
-    </div><!-- br-header -->
-    <!-- ########## END: HEAD PANEL ########## -->
 
-    <!-- ########## START: RIGHT PANEL ########## -->
-  
+    
+        </a>
+        <div class="dropdown-menu dropdown-menu-header" x-placement="bottom-start"
+          style="position: absolute; transform: translate3d(-149px, 52px, 0px); top: 0px; left: 0px; will-change: transform;">
+          <div class="dropdown-menu-label">
+            <label>Өнөөдөр хийгдсэн гүйлгээнүүд</label>
+          </div>
+
+          <div class="media-list">
+          
+            <a href="javascript:void(0);" class="media-list-link read">
+              <div class="media">
+                <div class="media-body">
+                  <p class="noti-text"><strong>14545454 </strong> данс руу 27000 төгрөг шилжүүлэв. Гүйлгээний утга :
+                    Netflix fee.</p>
+                  <span>2019 - 03 - 22 12:44</span>
+                </div>
+              </div>
+            </a>
+         
+            <a href="javascript:void(0);" class="media-list-link read">
+              <div class="media">
+                <div class="media-body">
+                  <p class="noti-text"><strong>5456465</strong> данснаас 20000000 төгрөгийн орлого оров. Гүйлгээний утга
+                    : Цалин </p>
+                  <span>2019 - 03 - 22 12:44</span>
+                </div>
+              </div>
+            </a>
+            <a href="javascript:void(0);" class="media-list-link read">
+              <div class="media">
+                <div class="media-body">
+                  <p class="noti-text"><strong>14545454 </strong> данс руу 27000 төгрөг шилжүүлэв. Гүйлгээний утга :
+                    Netflix fee.</p>
+                  <span>2019 - 03 - 22 12:44</span>
+                </div>
+              </div>
+            </a>
+            <a href="javascript:void(0);" class="media-list-link read">
+              <div class="media">
+                <div class="media-body">
+                  <p class="noti-text"><strong>5456465</strong> данснаас 20000000 төгрөгийн орлого оров. Гүйлгээний утга
+                    : Цалин </p>
+                  <span>2019 - 03 - 22 12:44</span>
+                </div>
+              </div>
+            </a>
+
+            <div class="dropdown-footer">
+              <a href="javascript:void(0);" routerLink="/user/transaction"><i class="fa fa-angle-down"></i> Бүх гүйлгээг
+                харах</a>
+            </div>
+          </div>
+        </div>
+      </div>  -->
+      <div class="dropdown">
+        <a href="javascript:void(0);" class="nav-link nav-link-profile" data-toggle="dropdown">
+          <span class="logged-name hidden-md-down">{{ currentUser.first_name }}</span>
+          <img src="../../../assets/images/user-placeholder.png" class="wd-32 rounded-circle" alt="">
+          <span class="square-10 bg-success"></span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-header wd-250">
+          <div class="tx-center">
+            <a href="javascript:void(0);"><img src="../../../assets/images/user-placeholder.png"
+                class="wd-80 rounded-circle" alt=""></a>
+            <h6 class="logged-fullname">Хэрэглэгчийн нэр</h6>
+            <p>{{currentUser.last_name}} {{currentUser.first_name}}</p>
+          </div>
+          <hr>
+          <ul class="list-unstyled user-profile-nav">
+            <li><a href="javasript:void(0)" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Гарах</a></li>
+          </ul>
+        </div><!-- dropdown-menu -->
+      </div><!-- dropdown -->
+    </nav>
+    <div class="navicon-right">
+      <a id="btnRightMenu" href="javascript:void(0);" class="pos-relative">
+        <i class="fas fa-ellipsis-v"></i>
+      </a>
+    </div><!-- navicon-right -->
+  </div><!-- br-header-right -->
+</div><!-- br-header -->
+<!-- ########## END: HEAD PANEL ########## -->
+
+<!-- ########## START: RIGHT PANEL ########## -->
+<div class="br-sideright">
+  <ul class="nav nav-tabs sidebar-tabs" role="tablist">
+
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" role="tab" href="#calendar"><i class="fas fa-calendar tx-24"></i></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" role="tab" href="#settings"><i class="fas fa-cog tx-24"></i></a>
+    </li>
+  </ul><!-- sidebar-tabs -->
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div class="tab-pane pos-absolute a-0 mg-t-60 overflow-y-auto ps ps--theme_default active" id="calendar"
+      role="tabpanel" data-ps-id="a535ca01-72d1-c0d7-a09e-5b37538e6020">
+      <label class="sidebar-label pd-x-25 mg-t-25">Он сар</label>
+      <div class="pd-x-25">
+        <h2 id="brTime" class="br-time">11:55:28 AM</h2>
+        <h6 id="brDate" class="br-date">March 22, 2019 FRI</h6>
+      </div>
+
+      <label class="sidebar-label pd-x-25 mg-t-25">Календар</label>
+      <div class="fc-datepicker sidebar-datepicker"></div>
+
+
+      <label class="sidebar-label pd-x-25 mg-t-25">Өнөөдөр төлөх төлбөр</label>
+      <div class="pd-x-25">
+        <div class="list-group sidebar-event-list mg-b-20">
+          <div class="list-group-item">
+            <div>
+              <h6>Тун удахгүй</h6>
+              <p>Хоосон байна</p>
+            </div>
+            <a href="javascript:void(0);" class="more"><i class="icon ion-android-more-vertical tx-18"></i></a>
+          </div><!-- list-group-item -->
+        </div><!-- list-group -->
+
+        <a href="javascript:void(0);" routerLink="/user/budget"
+          class="btn btn-block btn-outline-secondary tx-uppercase tx-12 tx-spacing-2">+ Төсөв нэмэх</a>
+        <br>
+      </div>
+
+
+    </div>
+    <div class="tab-pane pos-absolute a-0 mg-t-60 overflow-y-auto ps ps--theme_default" id="settings" role="tabpanel"
+      data-ps-id="ed36552b-9688-34b8-3be1-e647fa6538f7">
+      <label class="sidebar-label pd-x-25 mg-t-25">Тохиргоо</label>
+
+     
+      <div class="sidebar-settings-item">
+        <h4 class="tx-13 tx-normal"> Мэдээллийн нууцлал </h4>
+      
+        <div class="pos-relative">
+            <label class="ckbox"><input type="checkbox"  [checked]="mask.amount" (change)="setMask('amount')"> <span>Гүйлгээний дүн нууцлах</span></label>    
+            <label class="ckbox"><input type="checkbox"  [checked]="mask.description" (change)="setMask('description')"> <span> Гүйлгээний утга нууцлах</span></label>    
+        </div>
+         
+         
+      </div>
+
+      <div class="sidebar-settings-item">
+        <h6 class="tx-13 tx-normal">Дансны тохиргоо</h6>
+        <p class="op-5 tx-13">Тун удахгүй.</p>
+        
+      </div>
+
+
+    </div>
+  </div><!-- tab-content -->
+</div>
 <!-- ########## START: MAIN PANEL ########## -->
 <div class="br-mainpanel" style="position: relative;">
-    <router-outlet>
-
-    </router-outlet>
+  <router-outlet>
+  </router-outlet>
 </div>

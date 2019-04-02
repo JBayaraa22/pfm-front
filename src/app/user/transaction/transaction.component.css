@@ -1,0 +1,42 @@
+
+#pageNumber{
+  background: none !important;
+  border: none;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+.deleted-transaction{
+  text-decoration: line-through;
+}
+
+#pagination{
+  position: fixed;
+  bottom: 10px;
+}
+
+.optionGroup {
+  font-weight: bold;
+  font-style: italic;
+}
+  
+.optionChild {
+  text-indent: 15px;
+}
+
+.maskAmount:after {
+  content : attr(data-content) "₮";
+  transition : all 0.2s ease-in-out;
+  opacity: 0;
+}
+
+.maskAmount:active:after{
+  opacity: 1;
+}

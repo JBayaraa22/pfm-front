@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { BudgetComponent } from './budget/budget.component';
 import { CategoryComponent } from './category/category.component';
 import { TransactionComponent } from './transaction/transaction.component';
+import { RefreshComponent } from '../components/refresh/refresh.component';
 
 const routes: Routes = [
     {
@@ -17,7 +18,8 @@ const routes: Routes = [
             { path : 'dashboard' , component : DashboardComponent },
             { path : 'budget' , component : BudgetComponent },
             { path : 'category' , component : CategoryComponent },
-            { path : 'transaction' , component : TransactionComponent }
+            { path : 'transaction' , component : TransactionComponent },
+            { path : 'blank' , component : RefreshComponent },
 
         ]
     }

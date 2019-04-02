@@ -7,20 +7,27 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user/user.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { RefreshComponent } from '../components/refresh/refresh.component';
+import { TranslateModule } from '@ngx-translate/core';
+import {NgSelectizeModule} from 'ng-selectize';
 @NgModule({
   declarations: [
     BudgetComponent, 
     TransactionComponent, 
     CategoryComponent, 
     DashboardComponent, 
-    UserComponent
+    UserComponent,
+    RefreshComponent
   ],
   imports: [
     CommonModule,
     UserRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    ScrollingModule,
+    TranslateModule ,
+    NgSelectizeModule
   ]
 })
 export class UserModule { }

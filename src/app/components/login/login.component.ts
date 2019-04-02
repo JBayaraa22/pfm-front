@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
-import { first } from 'rxjs/operators'
 import { makeToast } from 'src/app/shared/functions';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-login',
@@ -12,9 +12,8 @@ import { makeToast } from 'src/app/shared/functions';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  submitted: boolean
   loading: boolean
-  user: any
+  user: User
   constructor(
       private formBuilder: FormBuilder,
       private route: ActivatedRoute,
@@ -34,22 +33,31 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-      this.submitted = true
-      let username = "demo"
-      let password = "demo1234"
+      this.loading = true
       if (this.loginForm.invalid) {
           makeToast("Хэрэглэгчийн нэр 4 өөс дээш урттай ,<br> нууц үг 8 аас дээш урттай байна", 'error')
-          return
       }
       else {
-        if(this.getControls.username.value == username && this.getControls.username.value == username){
-          makeToast("Амжилттай нэвтэрлээ" , "success")
-          this.router.navigate(['/user'])
-        }
-        else{
-          makeToast("Нууц үг, хэрэглэгчийн нэр алдаатай байна" , "error")
-        }
+        let username = this.getControls.username.value
+        let password = this.getControls.password.value
+        this.authService.login(username , password).subscribe(data=>{
+          if(data.token){
+              makeToast("Амжилттай нэвтэрлээ" , "success")
+              sessionStorage.setItem("currentUser" , JSON.stringify(data))
+              this.loading = false
+              this.router.navigate(['/user'])
+          }
+          else{
+            makeToast("Нууц үг, хэрэглэгчийн нэр алдаатай байна" , "error")
+            this.loading = false
+          }
+        } , error=>{
+          makeToast(error.message , 'error')
+          this.loading = false
+        })
+        this.loading = false
       }
+      this.loading = false
   }
 
 }

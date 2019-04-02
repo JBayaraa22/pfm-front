@@ -1,3 +1,546 @@
-<p>
-  transaction works!
-</p>
+<div class="spin-wrapper loading-custom-spinner" *ngIf="loading">
+  <div class="spinner">
+  </div>
+</div>
+<div class="br-pagetitle">
+  <i class="fas fa-exchange-alt fa-4x"></i>
+  <div>
+    <h4>{{'TRANSACTION' | translate}}</h4>
+    <p class="mg-b-0">{{'TRANSACTION_C_DESCRIPTION' | translate}}</p>
+  </div>
+</div>
+
+<div class="br-pagebody pd-b-100">
+  <div class="row row-sm">
+    <div class="col-lg-12">
+      <div class="card shadow-base bd-0">
+        <div class="card-header bg-transparent pd-20">
+          <h6 class="card-title tx-uppercase tx-12 mg-b-0">{{'TRANSACTION_LIST' | translate}}</h6>
+
+          <button class="btn btn-primary btn-with-icon btn-block wd-200 mg-t-10" data-toggle="modal"
+            data-target="#addTransactionModal">
+            <div class="ht-40">
+              <span class="icon wd-40"><i class="fas fa-plus-circle"></i></span>
+              <span class="pd-x-15">{{'ADD_TRAN' | translate}}</span>
+            </div>
+          </button>
+        </div>
+
+        <div class="table-wrapper">
+          <div id="accordion" class="accordion accordion-head-colored accordion-primary" role="tablist"
+            aria-multiselectable="true">
+            <div class="card">
+              <div class="card-header" role="tab" id="headingOne">
+                <h6 class="mg-b-0">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true"
+                    aria-controls="collapseOne" class="tx-gray-800 transition">
+                    <span class="fa-stack">
+                      <i class="far fa-circle fa-stack-2x"></i>
+                      <i class="fas fa-filter fa-stack-1x "></i>
+                    </span> {{'FILTER_N' | translate}} <i class="far fa-caret"></i>
+                  </a>
+                </h6>
+              </div><!-- card-header -->
+
+              <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="card-block pd-20">
+                  <form [formGroup]="filters" (ngSubmit)="setFilters()">
+                      <div class="form-layout form-layout-7">
+                          <div class="row no-gutters">
+                            <div class="col-5 col-sm-4">
+                                {{'MIN_AMOUNT' | translate}}:
+                            </div><!-- col-4 -->
+                            <div class="col-7 col-sm-8">
+                              <input class="form-control" formControlName="min_amount" type="number" placeholder="1000 гэх мэт.">
+                            </div><!-- col-8 -->
+                          </div><!-- row -->
+                          <div class="row no-gutters">
+                            <div class="col-5 col-sm-4">
+                                {{'MAX_AMOUNT' | translate}}(₮):
+                            </div><!-- col-4 -->
+                            <div class="col-7 col-sm-8">
+                              <input class="form-control" type="number" formControlName="max_amount" placeholder="200000 гэх мэт ...">
+                            </div><!-- col-8 -->
+                          </div><!-- row -->
+                          <div class="row no-gutters">
+                            <div class="col-5 col-sm-4">
+                                {{'TRAN_DESCRIPTION' | translate}}:
+                            </div><!-- col-4 -->
+                            <div class="col-7 col-sm-8">
+                              <input class="form-control" formControlName="description" type="text" placeholder="ATM гэх мэт... ">
+                            </div><!-- col-8 -->
+                          </div><!-- row -->
+                          <div class="row no-gutters">
+                            <div class="col-5 col-sm-4">
+                                {{'CATEGORY' | translate}}:
+                            </div><!-- col-4 -->
+                            <div class="col-7 col-sm-8">
+                              <ng-selectize [config]="selectize_config" [options]="selectize_options" formControlName="categories"></ng-selectize>
+                            </div><!-- col-8 -->
+                          </div><!-- row -->
+
+                          <div class="row no-gutters">
+                              <div class="col-5 col-sm-4">
+                                  {{'ACCOUNT' | translate}}:
+                              </div><!-- col-4 -->
+                              <div class="col-7 col-sm-8">
+                                <select class="form-control" id="select-category" formControlName="accounts">
+                                  <ng-container *ngFor="let acc of active_accounts; let i = index ">
+                                    <option [value]="acc.acct.id">{{acc.acct.acct_num}}</option>
+                                  </ng-container>
+                                </select>
+                              </div><!-- col-8 -->
+                            </div><!-- row -->
+
+                          <div class="row no-gutters">
+                            <div class="col-5 col-sm-4">
+                                {{'IS_DELETED' | translate}}:
+                            </div><!-- col-4 -->
+                            <div class="col-7 col-sm-8">
+                              <label class="ckbox">
+                                <input class="form-control" type="checkbox" formControlName="is_deleted"> <span></span>
+                              </label>
+                            </div><!-- col-8 -->
+                          </div><!-- row -->
+                          <div class="row no-gutters">
+                            <div class="col-5 col-sm-4">
+                                {{'PART' | translate}}:
+                            </div><!-- col-4 -->
+                            <div class="col-7 col-sm-8">
+                              <select class="form-control" formControlName="tran_part">
+                                <option value="C">Орлого</option>
+                                <option value="D">Зарлага</option>
+                                <option value="T">Шилжүүлэг</option>
+                              </select>
+                            </div><!-- col-8 -->
+                          </div><!-- row -->
+                          <div class="row no-gutters">
+                            <div class="col-sm-12 justify-content-center">
+                                <button class="btn btn-warning btn-with-icon btn-block mg-t-10 wd-200 mg-r-10" type="submit">
+                                    <div class="ht-40">
+                                      <span class="icon wd-40"><i class="fas fa-filter"></i></span>
+                                      <span class="pd-x-15">{{'FILTER_V' | translate}}</span>
+                                    </div>
+                                </button>
+                                <button class="btn btn-danger btn-with-icon btn-block mg-t-10 wd-200" type="button" (click)="filters.reset(); firstTime=true">
+                                    <div class="ht-40">
+                                      <span class="icon wd-40"><i class="fas fa-backspace"></i></span>
+                                      <span class="pd-x-15">{{'CLEAR_FILTER' | translate}}</span>
+                                    </div>
+                                </button>
+                            </div>
+                          </div>
+                        </div>
+                  </form>
+                </div>
+              </div>
+            </div><!-- card -->
+            <!-- ADD MORE CARD HERE -->
+          </div><!-- accordion -->
+       
+          <table class="table table-responsive table-hover" id="transactionList">
+            <thead>
+              <th class="tx-12">{{'INDEX' | translate}}</th>
+              <th class="tx-12">{{'ACCOUNT_NUM' | translate}}</th>
+              <th class="tx-12">{{'AMOUNT' | translate}}</th>
+              <th class="tx-12">{{'TRAN_DESCRIPTION' | translate}}</th>
+              <th class="tx-12">{{'PART' | translate}}</th>
+              <th class="tx-12">{{'TRAN_DATE' | translate}}</th>
+              <th class="tx-12">{{'ACTION' | translate}}</th>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="transactions[pageNumber]?.length > 0; else emptyTransactionList;">
+                <ng-container *ngFor="let txn of transactions[pageNumber];let i = index">
+                  <tr  [ngClass]="{'bg-gray-300 deleted-transaction': txn.deleted , 'maskAmountTr' : mask.amount}">
+                    <td class="tx-12"> {{ (pageNumber - 1) * 20 + i + 1}} </td>
+                    <td class="tx-12">
+                      <a href="javascript:void(0)" class="tx-inverse tx-14 tx-medium d-block">{{getAccountNumber(txn.account_id)}}</a>
+                      <span class="tx-11 d-block tx-info tx-bold" *ngIf="txn.tran_category!=null; else notCat;">
+                        {{ getCategoryName(txn.tran_category) | translate    }}</span>
+                      <ng-template #notCat>
+                        <span class="tx-11 d-block tx-warning">
+                          {{ "NOT_CATEGORIZED" | translate }}
+                        </span>
+                      </ng-template>
+
+
+                    </td>
+                    <td class="tx-12"> <span *ngIf="mask.amount else dontMaskAmount" class="maskAmount" [attr.data-content]="txn.amount_mnt"> <i class="far fa-eye fa-1x"></i>&nbsp;</span>
+                    <ng-template #dontMaskAmount>
+                        <span> {{txn.amount_mnt}} &nbsp; ₮ </span>
+                    </ng-template>
+                    
+                    </td>
+                    <ng-container  *ngIf="mask.description else dontMaskDesc">
+                      <td class="tx-12"> {{ maskDescription(txn.description) }} </td>
+                    </ng-container>
+                    <ng-template #dontMaskDesc>
+                    <td class="tx-12"> {{txn.description }} </td>
+                  </ng-template>
+                    
+                    <td class="tx-12"> <span [ngSwitch]="txn.tran_part">
+                    <p *ngSwitchCase="'C'">
+                        <span class="square-8 bg-success mg-r-5 rounded-circle"></span> Орлого
+                      </p>
+                      <p *ngSwitchCase="'D'">
+                        
+                        <span class="square-8 bg-danger mg-r-5 rounded-circle"></span> Зарлага
+                      </p>
+                      <p *ngSwitchDefault>
+                        
+                        <span class="square-8 bg-info mg-r-5 rounded-circle"></span> Шилжүүлэг
+                    </p>
+                    </span> </td>
+                    <td class="tx-12"> {{txn.tran_date}} </td>
+                    <td>
+                      <div class="dropdown">
+                        <a href="javascript:void(0);" data-toggle="dropdown"
+                          class="btn btn-icon rounded-circle tx-disabled mg-r-5 mg-b-10">
+                          <div><i class="fas fa-ellipsis-h"></i></div>
+                        </a>
+                        <div class="dropdown-menu pd-10 wd-100 " style="margin-left:-50px;">
+                          <nav class="nav nav-style-2 flex-column">
+                            <a href="javascript:void(0);" class="nav-link" data-toggle="modal"
+                              data-target="#transactionInfoModal" (click)="selectTransaction(txn , MODAL_MODE.VIEW)"><i
+                                class="fas fa-info-circle"></i>
+                                {{'MORE' | translate}}</a>
+                            <a href="javascript:void(0);" class="nav-link" data-toggle="modal"
+                              data-target="#transactionInfoModal" (click)="selectTransaction(txn , MODAL_MODE.EDIT)"><i
+                                class="fas fa-edit"></i>
+                                {{'EDIT' | translate}}</a>
+                            <ng-container *ngIf="txn.deleted; else notDeleted">
+                              <a href="javascript:void(0);" (click)="deleteTransaction(txn)" class="nav-link"><i
+                                  class="fas fa-plus-circle"></i> {{'ADD' | translate}}</a>
+                            </ng-container>
+                            <ng-template #notDeleted>
+                              <a href="javascript:void(0);" (click)="deleteTransaction(txn)" class="nav-link"><i
+                                  class="fas fa-trash"></i> {{'DELETE' | translate}}</a>
+                            </ng-template>
+
+
+                          </nav>
+                        </div><!-- dropdown-menu -->
+                      </div><!-- dropdown -->
+                    </td>
+                  </tr>
+                </ng-container>
+
+
+              </ng-container>
+              <ng-template #emptyTransactionList>
+                <tr>
+                  <td colspan="7">
+
+                
+                      <div class="alert alert-info" role="alert">
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                          </button>
+                          <div class="d-flex align-items-center justify-content-start">
+                            <i class="fas fa-info-circle fa-2x"></i>
+                            <span><strong class="pd-l-10">{{'EMPTY_TRANSACTION_LIST' | translate}} !</strong></span>
+                          </div><!-- d-flex -->
+                        </div>
+
+                  </td>
+                </tr>
+              </ng-template>
+
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="7">
+                    <ul class="pagination pagination-circle bd-0  mg-b-0">
+                        <li [ngClass]="(pageNumber<=1)?'page-item hidden-xs-down disabled' : 'page-item hidden-xs-down'"
+                          (click)="getPage(1 , false)">
+                          <a class="page-link" href="javascript:void(0)" aria-label="Эхний хуудас"><i
+                              class="fa fa-angle-double-left"></i></a>
+                        </li>
+                        <li [ngClass]="(pageNumber<=1)?'page-item hidden-xs-down disabled' : 'page-item hidden-xs-down'"
+                          (click)="getPage(pageNumber-1 , false)">
+                          <a class="page-link" href="javascript:void(0)" aria-label="Өмнөх"><i
+                              class="fa fa-angle-left"></i></a>
+                        </li>
+                        <li class="page-item active">
+                          <a href="javascript:void(0)" class="page-link">
+                            <input class="form-control justify-content-center align-items-center tx-white" aria-valuemin="1"
+                              type="number" [(ngModel)]="pageNumber" id="pageNumber"
+                              (keyup.enter)="getPage(pageNumber , false)" (change)="validatepn(pageNumber)">
+                          </a>
+                        </li>
+                        <li class="page-item disabled">
+                          <span class="page-link">/</span>
+                        </li>
+                        <li class="page-item ">
+                          <a href="javascript:void(0)" class="page-link"
+                            (click)="getPage(number_of_page , false)">{{ number_of_page }}</a>
+                        </li>
+                        <li
+                          [ngClass]="(pageNumber==number_of_page)?'page-item hidden-xs-down disabled' : 'page-item hidden-xs-down'"
+                          (click)="getPage(pageNumber+1 , false)">
+                          <a class="page-link" href="javascript:void(0)" aria-label="Дараагийн хуудас"><i
+                              class="fa fa-angle-right"></i></a>
+                        </li>
+                        <li
+                          [ngClass]="(pageNumber==number_of_page)?'page-item hidden-xs-down disabled' : 'page-item hidden-xs-down'"
+                          (click)="getPage(number_of_page , false)">
+                          <a class="page-link" href="javascript:void(0)" aria-label="Сүүлийн хуудас"><i
+                              class="fa fa-angle-double-right"></i></a>
+                        </li>
+                      </ul>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+          <!-- <ng-container *ngIf="transactions[pageNumber]">
+            <div class="row row-sm ht-80 bd bg-dark d-flex align-items-center justify-content-center">
+                      
+              <div class="col-lg-12">
+          
+                  <ul class="pagination pagination-danger pagination-dark mg-b-0">
+                      <li [ngClass]="(pageNumber==1)?'page-item hidden-xs-down disabled' : 'page-item hidden-xs-down'" (click)="getPage(1)">
+                        <a class="page-link" href="javascript:void(0)" aria-label="Эхний хуудас"><i class="fa fa-angle-double-left"></i></a>
+                      </li>
+                      <li [ngClass]="(pageNumber==1)?'page-item hidden-xs-down disabled' : 'page-item hidden-xs-down'" (click)="getPage(pageNumber-1)">
+                        <a class="page-link" href="javascript:void(0)" aria-label="Өмнөх"><i class="fa fa-angle-left"></i></a>
+                      </li>
+                      
+                        <ng-container *ngFor="let i of paginations">
+                            <li [ngClass]="(i==pageNumber)?'page-item active' : 'page-item'"  (click)="getPage(i)">
+                                <a href="javascript:void(0)" class="page-link">{{ i }}</a>
+                            </li>
+                        </ng-container >
+                        
+                    
+                      <li [ngClass]="(pageNumber==number_of_page)?'page-item hidden-xs-down disabled' : 'page-item hidden-xs-down'" (click)="getPage(pageNumber+1)">
+                        <a class="page-link" href="javascript:void(0)" aria-label="Дараагийн хуудас"><i class="fa fa-angle-right"></i></a>
+                      </li>
+                      <li [ngClass]="(pageNumber==number_of_page)?'page-item hidden-xs-down disabled' : 'page-item hidden-xs-down'" (click)="getPage(number_of_page)">
+                        <a class="page-link" href="javascript:void(0)" aria-label="Сүүлийн хуудас"><i class="fa fa-angle-double-right"></i></a>
+                      </li>
+                    </ul>
+          
+              </div>
+          
+            </div>
+          </ng-container> -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="transactionInfoModal" class="modal fade show effect-sign">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content tx-size-sm">
+        <div class="modal-header pd-x-20">
+          <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">
+            {{ mode==MODAL_MODE.EDIT ? 'EDIT_TRANSACTION' : 'TRANSACTION_INFO' | translate  }}</h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body pd-20">
+
+          <div class="form-layout form-layout-2">
+            <div class="row no-gutters">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="form-control-label">{{'TRAN_DATE' | translate}}:<br> <span class="tx-danger" *ngIf="mode==MODAL_MODE.EDIT">{{'NOT_EDITABLE' | translate}}</span></label>
+                  <input class="fc-datepicker form-control" type="text" [(ngModel)]="selectedTransaction.tran_date"
+                    placeholder="YYYY-MM-DD" disabled >
+                </div>
+              </div><!-- col-4 -->
+              <div class="col-md-4 mg-t--1 mg-md-t-0">
+                <div class="form-group mg-md-l--1">
+                  <label class="form-control-label">{{'TRAN_AMOUNT' | translate}}: <span class="tx-success">*</span></label>
+                  <input class="form-control" type="number" [(ngModel)]="selectedTransaction.amount_mnt" placeholder="0"
+                    [disabled]="mode==MODAL_MODE.VIEW">
+                </div>
+              </div><!-- col-4 -->
+              <div class="col-md-4 mg-t--1 mg-md-t-0">
+                <div class="form-group mg-md-l--1">
+                  <label class="form-control-label">{{'CPTY_ACCOUNT' | translate}}:<br> <span class="tx-danger" *ngIf="mode==MODAL_MODE.EDIT">{{'NOT_EDITABLE' | translate}}</span></label>
+                  <input class="form-control" type="text" [(ngModel)]="selectedTransaction.cpty_account" placeholder=""
+                  disabled>
+                </div>
+              </div><!-- col-4 -->
+              <div class="col-md-8">
+                <div class="form-group bd-t-0-force">
+                  <label class="form-control-label">{{'TRAN_DESCRIPTION' | translate}}: <span class="tx-success">*</span></label>
+                  <textarea class="form-control" type="text" [(ngModel)]="selectedTransaction.description"
+                    placeholder="" [disabled]="mode==MODAL_MODE.VIEW"></textarea>
+                </div>
+              </div><!-- col-8 -->
+              <div class="col-md-4">
+                <div class="form-group mg-md-l--1 bd-t-0-force">
+                  <label class="form-control-label mg-b-0-force">{{'CPTY_NAME' | translate}}:<br> <span
+                      class="tx-danger" *ngIf="mode==MODAL_MODE.EDIT">{{'NOT_EDITABLE' | translate}}</span></label>
+                  <input class="form-control" type="text" [(ngModel)]="selectedTransaction.cpty_name" placeholder=""
+                    disabled>
+                    <input type="hidden" [(ngModel)]="selectedTransaction.id">
+                </div>
+              </div><!-- col-8 -->
+              <div class="col-md-4">
+                <div class="form-group bd-t-0-force">
+                  <label class="form-control-label ">{{'PART' | translate}}: <span class="tx-success">*</span></label>
+                  <select class="form-control select2" [(ngModel)]="selectedTransaction.tran_part"
+                    [disabled]="mode==MODAL_MODE.VIEW" (change)="setParents(selectedTransaction.tran_part)">
+                    <option value="C">Орлого</option>
+                    <option value="D">Зарлага</option>
+                    <option value="T">Шилжүүлэг</option>
+                  </select>
+                </div>
+              </div><!-- col-4 -->
+              <div class="col-md-4  mg-t--1">
+                <div class="form-group mg-md-l--1">
+                  <label class="form-control-label">{{'CATEGORY' | translate}}: <span class="tx-success">*</span></label>
+                  <select class="select2 form-control" [(ngModel)]="selectedTransaction.tran_category"
+                    [disabled]="mode==MODAL_MODE.VIEW">
+                    <ng-container *ngFor="let cat of parents;let i = index">
+                      <option [value]="cat.id" class="optionGroup" [selected]="i == 1? 'true' : 'false'">{{cat.name | translate}}
+                      </option>
+                      <ng-container *ngFor="let child of cat.children">
+                        <option [value]="child.id" class="optionChild"> &nbsp;&nbsp; {{child.name | translate }} </option>
+                      </ng-container>
+                    </ng-container>
+
+
+                    <!-- <option *ngFor="let cat of parents" [value]="cat.id" [attr.class]="cat.parent==null? 'optionGroup' : 'optionChild'">{{ cat.parent!=null ? "&nbsp;&nbsp;&nbsp;&nbsp;" : ""}} {{ cat.name }}</option> -->
+                  </select>
+                </div>
+              </div><!-- col-4 -->
+              <div class="col-md-4  mg-t--1">
+                <div class="form-group mg-md-l--1">
+                  <label class="form-control-label">{{'IS_DELETED' | translate}}: <span class="tx-success">*</span></label>
+                  <label class="ckbox"><input class="form-control" type="checkbox"
+                      [(ngModel)]="selectedTransaction.deleted" [disabled]="mode==MODAL_MODE.VIEW"><span></span></label>
+                </div>
+              </div><!-- col-4 -->
+              <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="form-control-label">{{'ACCOUNT_NUM' | translate}}:<br> <span class="tx-danger" *ngIf="mode==MODAL_MODE.EDIT">{{'NOT_EDITABLE' | translate}}</span></label>
+                    <input class="form-control" type="number" [(ngModel)]="selectedTransaction.account_id"
+                       disabled >
+                  </div>
+                </div><!-- col-4 -->
+            </div><!-- row -->
+            <div class="form-layout-footer bd pd-20 bd-t-0">
+              <button class="btn btn-primary mg-r-10" (click)="updateTransaction()" *ngIf="mode==MODAL_MODE.EDIT"><i class="fas fa-save"></i> {{'SAVE' | translate}}</button>
+              <button class="btn btn-info mg-r-10" *ngIf="mode==MODAL_MODE.VIEW" (click)="mode=MODAL_MODE.EDIT"> <i class="fas fa-edit"></i> {{'EDIT' | translate}} </button>
+              <button class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times-cirlce"></i> {{'CLOSE' | translate}}</button>
+            </div><!-- form-group -->
+          </div>
+
+        </div><!-- modal-body -->
+
+      </div>
+    </div><!-- modal-dialog -->
+  </div>
+
+  <div id="addTransactionModal" class="modal fade show">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content tx-size-sm">
+        <div class="modal-header pd-x-20">
+          <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Гүйлгээ нэмэх</h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body pd-20">
+          <form [formGroup]="addTxnForm" (ngSubmit)="onSubmit()">
+            <div class="form-layout form-layout-2">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <div class="form-group ">
+                    <label class="form-control-label">Гүйлгээний огноо: <span class="tx-danger">*</span></label>
+                    <input class="fc-datepicker form-control" type="text" formControlName="tran_date" id="tran_date"
+                      placeholder="YYYY-MM-DD" (click)="setTranDate()">
+                      <ng-container *ngIf="addTxnForm.controls.tran_date.invalid">
+                          <label class="form-control-label tx-danger" *ngIf="addTxnForm.controls.tran_date.errors.required">Заавал бөглөнө үү.</label>
+                          <label class="form-control-label tx-danger" *ngIf="addTxnForm.controls.tran_date.errors.incorrect">Өнөөдрөөс өмнөх өдөр сонгоно уу.</label>
+                      </ng-container>                   
+                  </div>
+                </div><!-- col-4 -->
+                <div class="col-md-4 mg-t--1 mg-md-t-0">
+                  <div class="form-group mg-md-l--1">
+                    <label class="form-control-label">Мөнгөн дүн: <span class="tx-danger">*</span></label>
+                    <input class="form-control" type="number" formControlName="amount_mnt" placeholder="0">
+                    <ng-container *ngIf="addTxnForm.controls.amount_mnt.invalid">
+                        <label class="form-control-label tx-danger" *ngIf="addTxnForm.controls.amount_mnt.errors.required">Заавал бөглөнө үү.</label>
+                        <label class="form-control-label tx-danger" *ngIf="addTxnForm.controls.amount_mnt.errors.min">1 ₮ - өөс дээш утга оруулна уу.</label>
+                    </ng-container>
+                  </div>
+                 
+                </div><!-- col-4 -->
+
+                <div class="col-md-4 mg-t--1 mg-md-t-0">
+                    <div class="form-group bd-t-0-force mg-md-l--1">
+                      <label class="form-control-label ">Төрөл: <span class="tx-danger">*</span></label>
+                      <select class="form-control select2" formControlName="tran_part" (change)="setParents(addTxnForm.controls.tran_part.value)">
+                        <option value="C">Орлого</option>
+                        <option value="D">Зарлага</option>
+                        <option value="T">Шилжүүлэг</option>
+                      </select>
+                    </div>
+                  </div><!-- col-4 -->
+
+            
+                <div class="col-md-12">
+                  <div class="form-group bd-t-0-force">
+                    <label class="form-control-label">Гүйлгээний утга: <span class="tx-danger">*</span></label>
+                    <textarea class="form-control" type="text" placeholder="" formControlName="description"></textarea>
+                    <ng-container *ngIf="addTxnForm.controls.description.invalid">
+                        <label class="form-control-label tx-danger" *ngIf="addTxnForm.controls.description.errors.required">Заавал бөглөнө үү.</label>
+                        <label class="form-control-label tx-danger" *ngIf="addTxnForm.controls.description.errors.minlength">Хамгийн багадаа 4 тэмдэгт оруулна уу.</label>
+                        <label class="form-control-label tx-danger" *ngIf="addTxnForm.controls.description.errors.maxlength">Оруулах тэмдэгтийн дээд хязгаар 500 тэмдэгт.</label>
+                    </ng-container> 
+                  </div>
+                </div><!-- col-8 -->
+               
+              
+                <div class="col-md-8  mg-t--1">
+                  <div class="form-group mg-md-l--1">
+                    <label class="form-control-label">Ангилал: <span class="tx-danger">*</span></label>
+                    <select class="select2 form-control" formControlName="tran_category">
+                      <ng-container *ngFor="let cat of parents;let i = index">
+                        <option [value]="cat.id" class="optionGroup" [selected]="i == 1? 'true' : 'false'">{{cat.name | translate}}
+                        </option>
+                        <ng-container *ngFor="let child of cat.children">
+                          <option [value]="child.id" class="optionChild"> &nbsp;&nbsp; {{child.name | translate}} </option>
+                        </ng-container>
+
+                      </ng-container>
+
+
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4  mg-t--1">
+                  <div class="form-group mg-md-l--1">
+                    <label class="form-control-label">Дансны дугаар: <span class="tx-danger">*</span></label>
+                    <select class="select2 form-control" formControlName="account_id">
+                      <ng-container *ngFor="let acc of active_accounts;let i = index">
+                          <option [value]="acc.acct.id" [selected]="{'selected' : i==0}">{{acc.acct.acct_num}}</option>
+                      </ng-container>
+                      
+                    </select>
+                  </div>
+                </div><!-- col-4 -->
+              </div><!-- row -->
+              <!-- <div class="col-md-12" *ngIf="addTxnForm.controls.amount_mnt.invalid && (name.dirty || name.touched)">
+                  <div class="form-group bd-t-0-force">
+
+                  </div>
+              </div> -->
+              <div class="form-layout-footer bd pd-20 bd-t-0">
+                <button class="btn btn-primary mg-r-10" type="submit"><i class="fas fa-save"></i> Хадгалах</button>
+                <button class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times-circle"></i> Хаах</button>
+              </div><!-- form-group -->
+            </div>
+          </form>
+        </div><!-- modal-body -->
+
+      </div>
+    </div><!-- modal-dialog -->
+  </div>

@@ -1,3 +1,499 @@
-<p>
-  budget works!
-</p>
+<div class="spin-wrapper loading-custom-spinner" *ngIf="loading">
+  <div class="spinner">
+  </div>
+</div>
+
+<div class="br-pagetitle">
+  <i class="fas fa-money-bill fa-4x"></i>
+  <div>
+    <h4>Төсөв</h4>
+    <p class="mg-b-0">Төсөв төлөвлөх , зохицуулах.</p>
+  </div>
+</div>
+
+<div class="br-pagebody">
+  <div class="row row-sm">
+    <div class="col-lg-12">
+      <div class="card shadow-base bd-0">
+        <div class="card-header bg-transparent pd-20">
+          <h6 class="card-title tx-uppercase tx-12 mg-b-0">Төсвийн жагсаалт</h6>
+
+          <button class="btn btn-primary btn-with-icon btn-block wd-200 mg-t-10" data-toggle="modal"
+            data-target="#addBudgetModal">
+            <div class="ht-40">
+              <span class="icon wd-40"><i class="fas fa-plus-circle"></i></span>
+              <span class="pd-x-15">Төсөв нэмэх</span>
+            </div>
+          </button>
+        </div><!-- card-header -->
+        <table class="table table-responsive mg-b-0 tx-12">
+          <thead>
+            <tr class="tx-10">
+              <th class="wd-10p pd-y-5">Д/д</th>
+              <th class="pd-y-5">Нэр</th>
+              <th class="pd-y-5">Дүн</th>
+              <th class="pd-y-5">Давтамж</th>
+              <!-- <th class="pd-y-5">Автоматаар давтах эсэх</th> -->
+              <th class="pd-y-5">Эхлэх хугацаа</th>
+              <th class="pd-y-5">Дуусах хугацаа</th>
+              <th class="pd-y-5" colspan="2">Хэрэглээ</th>
+              <th class="pd-y-5">Үйлдэл</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="budgets?.length > 0 && !loading; else emptyBudgetList">
+            <tr *ngFor="let budget of budgets; let i = index">
+              <td>
+                {{ i + 1 }}
+              </td>
+              <td>
+                <a href="" class="tx-inverse tx-14 tx-medium d-block">{{ budget.name }}</a>
+                <span class="tx-11 d-block">Ангилал : {{ getCategoryName(budget.category_id) |  translate }}</span>
+              </td>
+              <td class="tx-bold">
+                {{ budget.amount}} <b class="tx-info">₮</b>
+              </td>
+              <td class="tx-12" [ngSwitch]="budget.freq">
+                <span *ngSwitchCase="'M'"><span class="square-8 bg-info mg-r-5 rounded-circle"></span>
+                  Давтагдана</span>
+                <span *ngSwitchCase="'Q'"><span class="square-8 bg-info mg-r-5 rounded-circle"></span>
+                  Давтагдана</span>
+                <span *ngSwitchCase="'Y'"><span class="square-8 bg-info mg-r-5 rounded-circle"></span>
+                  Давтагдана</span>
+                <span *ngSwitchCase="'C'"><span class="square-8 bg-indigo mg-r-5 rounded-circle"></span>
+                  Давтагдахгүй</span>
+
+              </td>
+              <!-- <td class="tx-12">
+                <span class="square-8 bg-success mg-r-5 rounded-circle"></span>
+              </td> -->
+
+
+              <!-- <td>
+                <ng-container *ngIf="budget.repeat;else dontRepeat">
+                  <i class="far fa-check-circle tx-success"></i>
+                </ng-container>
+                <ng-template #dontRepeat>
+                    <i class="far fa-window-close tx-danger"></i>
+
+                </ng-template>
+                
+              </td> -->
+              <td>
+                {{ budget.start_date }}
+              </td>
+              <td>
+                {{ budget.end_date }}
+              </td>
+              <td colspan="2">
+                <ng-container *ngIf="isExceeded(budget) else notExceeded">
+                    <div class="progress wd-200">
+                        <div class="progress-bar bg-danger tx-10 progress-bar-md wd-100p" role="progressbar" aria-valuenow="100"  aria-valuemin="0" aria-valuemax="100">
+                          100%
+                        </div>
+                      </div>
+                </ng-container>
+                <ng-template #notExceeded>
+                   <ng-container *ngIf="getUsage(budget) >= 90 else budgetOk">
+                      <div class="progress wd-200">
+                          <div class="progress-bar bg-warning tx-10 progress-bar-md" 
+                          [ngStyle]="{'width': getUsage(budget) + '%'}"
+                          role="progressbar" [attr.aria-valuenow]="getUsage(budget)"  aria-valuemin="0" aria-valuemax="100">
+                              {{getUsage(budget)}}%
+                          </div>
+                        </div>
+                   </ng-container>
+                  <ng-container>
+                      <ng-template #budgetOk>
+                          <div class="progress wd-200">
+                              <div class="progress-bar bg-success tx-10 progress-bar-md " 
+                              [ngStyle]="{'width': getUsage(budget) + '%'}"
+                              role="progressbar" [attr.aria-valuenow]="getUsage(budget)"  aria-valuemin="0" aria-valuemax="100">
+                                  {{getUsage(budget)}}%
+                              </div>
+                            </div>
+                       </ng-template>
+                  </ng-container>
+                  
+                </ng-template>
+                
+                
+              </td>
+              <td>
+                <div class="dropdown">
+                  <a href="javascript:void(0);" data-toggle="dropdown"
+                    class="btn btn-icon rounded-circle tx-disabled mg-r-5 mg-b-10">
+                    <div><i class="fas fa-ellipsis-h"></i></div>
+                  </a>
+                  <div class="dropdown-menu pd-10 wd-100 " style="margin-left:-50px;">
+                    <nav class="nav nav-style-2 flex-column">
+                      <a href="javascript:void(0);" class="nav-link" data-toggle="modal" data-target="#editBudgetModal"
+                        (click)="selectBudget(budget)"><i class="fas fa-edit"></i>
+                        Засах</a>
+                      <a href="javascript:void(0);" (click)="deleteBudget(budget)" class="nav-link"><i
+                          class="fas fa-trash"></i> Устгах</a>
+                    </nav>
+                  </div><!-- dropdown-menu -->
+                </div><!-- dropdown -->
+              </td>
+            </tr>
+
+          </tbody>
+          <ng-template #emptyBudgetList>
+
+            <tfoot>
+              <tr>
+                <td colspan="9">
+                  <div class="alert alert-info" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                    <div class="d-flex align-items-center justify-content-start">
+                      <i class="icon ion-ios-information alert-icon tx-32 mg-t-5 mg-xs-t-0"></i>
+                      <span><strong>Хоосон байна!</strong> Одоогоор төсөв төлөвлөөгүй байна.</span>
+                    </div><!-- d-flex -->
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
+
+          </ng-template>
+
+        </table>
+        <div class="card-footer tx-12 pd-y-15 bg-transparent">
+          <a routerLink="/user/transaction"><i class="fa fa-angle-down mg-r-5"></i>Гүйлгээний жагсаалт харах</a>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div>
+
+  </div>
+</div>
+
+
+
+<div id="addBudgetModal" class="modal fade show effect-sign">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content bd-0 bg-transparent rounded overflow-hidden">
+      <div class="modal-body pd-0">
+        <div class="row no-gutters">
+          <div class="col-lg-6 bg-primary">
+            <div class="pd-40">
+              <h4 class="tx-white mg-b-20"><i class="fas fa-info"></i> Тусламж</h4>
+              <p class="tx-white op-7 mg-b-60">BUDGET_DESCRIPTION_LIES_HERE.</p>
+              <p class="tx-white tx-13">
+                <span class="tx-uppercase tx-medium d-block mg-b-15">Талбарууд:</span>
+                <span class="op-7">
+
+
+                  <ul class="list-group">
+                    <li class="list-group-item rounded-top-0">
+                      <p class="mg-b-0"><i class="fa fa-info-circle tx-warning mg-r-8"></i><strong
+                          class="tx-inverse tx-medium">Нэр : </strong> <span class="text-muted"> Төсөвийн нэр.</span>
+                      </p>
+                    </li>
+                    <li class="list-group-item rounded-top-0">
+                      <p class="mg-b-0"><i class="fa fa-info-circle tx-warning mg-r-8"></i><strong
+                          class="tx-inverse tx-medium">Мөнгөн дүн : </strong> <span class="text-muted"> Төсөвт
+                          төлөвлөсөн мөнгөн дүн.</span></p>
+                    </li>
+
+                    <li class="list-group-item rounded-top-0">
+                      <p class="mg-b-0"><i class="fa fa-info-circle tx-warning mg-r-8"></i><strong
+                          class="tx-inverse tx-medium">Эхлэх хугацаа : </strong> <span class="text-muted"> Сарын эхний
+                          өдөр байна.</span></p>
+                    </li>
+                    <li class="list-group-item rounded-top-0" *ngIf="addBudgetForm.controls.repeat.value">
+                      <p class="mg-b-0"><i class="fa fa-info-circle tx-warning mg-r-8"></i><strong
+                          class="tx-inverse tx-medium">Дуусах хугацаа : </strong> <span class="text-muted"> Сарын
+                          сүүлийн өдөр байна.</span></p>
+                    </li>
+                    <li class="list-group-item rounded-top-0">
+                      <p class="mg-b-0"><i class="fa fa-info-circle tx-warning mg-r-8"></i><strong
+                          class="tx-inverse tx-medium">Давтамж : </strong> <span class="text-muted">"Давтагдана"-г
+                          сонгосон тохиолдолд , сар бүрийн эхэнд өгөгдсөн мөнгөн дүнгээр шинэ төсөв үүснэ.</span></p>
+                    </li>
+                    <li class="list-group-item rounded-top-0">
+                      <p class="mg-b-0"><i class="fa fa-info-circle tx-warning mg-r-8"></i><strong
+                          class="tx-inverse tx-medium">Ангилал : </strong> <span class="text-muted"> Төсвийн
+                          ангилал.</span></p>
+                    </li>
+                  </ul>
+
+                </span></p>
+            </div>
+          </div><!-- col-6 -->
+          <div class="col-lg-6 bg-white">
+            <div class="pd-30">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+              <div class="form-layout">
+                <form [formGroup]="addBudgetForm" (ngSubmit)="onSubmit()">
+                  <h6 class="br-section-label">Төсөв нэмэх</h6>
+                  <p class="br-section-text">Доорх талбаруудыг бөглөнө үү.</p>
+                  <div class="row">
+                    <label class="col-sm-4 form-control-label">Нэр:</label>
+                    <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                      <input type="text" formControlName="name" class="form-control"
+                        placeholder="Төсвийн нэрийг оруулна уу ...">
+
+                    <ng-container *ngIf="addBudgetForm.controls.name.invalid && (addBudgetForm.controls.name.dirty || addBudgetForm.controls.name.touched)">
+                        <div class="alert alert-solid alert-danger" role="alert" *ngIf="addBudgetForm.controls.name.errors.required">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                            <strong class="d-block d-sm-inline-block-force">Төсвийн нэрийг заавал оруулна уу.</strong>
+                          </div>
+                          
+                    </ng-container>
+                    
+                    </div>
+
+                  </div><!-- row -->
+                  <div class="row mg-t-20">
+                    <label class="col-sm-4 form-control-label">Мөнгөн дүн:</label>
+                    <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                      <input type="text" class="form-control" formControlName="amount"
+                        placeholder="Төсвийн мөнгөн дүнг оруулна уу ...">
+
+                        <ng-container *ngIf="addBudgetForm.controls.amount.invalid && (addBudgetForm.controls.amount.dirty || addBudgetForm.controls.amount.touched)">
+                            <div class="alert alert-solid alert-danger" role="alert" *ngIf="addBudgetForm.controls.amount.errors.required">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                  <span aria-hidden="true">×</span>
+                                </button>
+                                <strong class="d-block d-sm-inline-block-force">Төсвийн мөнгөн дүнг заавал оруулна уу.</strong>
+                              </div>
+                              <div class="alert alert-solid alert-danger" role="alert" *ngIf="addBudgetForm.controls.amount.errors.min">
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                  </button>
+                                  <strong class="d-block d-sm-inline-block-force">1₮ - өөс дээш утга оруулна уу.</strong>
+                                </div>
+                        </ng-container>
+                    </div>
+                  </div>
+                  <div class="row mg-t-20">
+                    <label class="col-sm-4 form-control-label">Давтамж:</label>
+                    <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                      <select class="form-control select2" formControlName="freq">
+                        <option value="M">Давтагдана</option>
+                        <option value="C">Давтагдахгүй</option>
+                      </select>
+                    </div>
+                  </div>
+      
+
+                  <div class="row mg-t-20">
+                    <label class="col-sm-4 form-control-label">Эхлэх хугацаа:</label>
+                    <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                      <input type="text" class="form-control fc-datepicker" placeholder="MM-DD-YYYY"
+                        formControlName="start_date" (click)="setDate('start')"
+                        [value]="addBudgetForm.get('start_date').value | date: 'yyyy-MM-dd'" id="add_budget_start_date">
+                        <ng-container *ngIf="addBudgetForm.controls.start_date.invalid && (addBudgetForm.controls.start_date.dirty || addBudgetForm.controls.start_date.touched)">
+                            <div class="alert alert-solid alert-danger" role="alert" *ngIf="addBudgetForm.controls.start_date.errors.required">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                  <span aria-hidden="true">×</span>
+                                </button>
+                                <strong class="d-block d-sm-inline-block-force">Төсвийн огноог заавал оруулна уу.</strong>
+                              </div>
+                              <div class="alert alert-solid alert-danger" role="alert" *ngIf="addBudgetForm.controls.start_date.errors.incorrect">
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                  </button>
+                                  <strong class="d-block d-sm-inline-block-force"> Өнгөрсөн огноогоор төсөв үүсгэж болохгүй. Эхлэх өдөр сарын эхний өдөр байх ёстой. </strong>
+                                </div>
+                        </ng-container>
+                    </div>
+                  </div>
+                  <div class="row mg-t-20">
+                    <label class="col-sm-4 form-control-label">Дуусах хугацаа:</label>
+                    <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                      <input type="text" class="form-control fc-datepicker" placeholder="MM-DD-YYYY"
+                        formControlName="end_date" [value]="addBudgetForm.get('end_date').value |date : 'yyyy-MM-dd'" (click)="setDate('end')"
+                        id="add_budget_end_date">
+                    </div>
+                  </div>
+                  <div class="row mg-t-20">
+                    <label class="col-sm-4 form-control-label">Ангилал:</label>
+                    <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                      <select class="select2 form-control" formControlName="category_id">
+                        <ng-container *ngFor="let cat of categories;let i = index">
+                          <ng-container *ngIf="cat.parent==null">
+                            <option [value]="cat.id" [selected]="(i==0)">{{cat.name | translate}}</option>
+                          </ng-container>
+                        </ng-container>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div class="row mg-t-30">
+                    <div class="col-sm-8 mg-l-auto">
+                      <div class="form-layout-footer">
+                        <button class="btn btn-info"><i class="fas fa-save"></i> Хадгалах</button>
+                      </div><!-- form-layout-footer -->
+                    </div><!-- col-8 -->
+                  </div>
+
+                  <div class="row mg-t-30">
+                    
+
+                  </div>
+                </form>
+              </div><!-- form-layout -->
+
+            </div><!-- pd-20 -->
+          </div><!-- col-6 -->
+        </div><!-- row -->
+
+      </div><!-- modal-body -->
+    </div><!-- modal-content -->
+  </div><!-- modal-dialog -->
+</div>
+
+<div id="editBudgetModal" class="modal fade show effect-sign">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content bd-0 bg-transparent rounded overflow-hidden">
+      <div class="modal-body pd-0">
+        <div class="row no-gutters">
+          <div class="col-lg-6 bg-primary">
+            <div class="pd-40">
+              <h4 class="tx-white mg-b-20"><i class="fas fa-info"></i> Тусламж</h4>
+              <p class="tx-white op-7 mg-b-60">BUDGET_DESCRIPTION_LIES_HERE.</p>
+              <p class="tx-white tx-13">
+                <span class="tx-uppercase tx-medium d-block mg-b-15">Талбарууд:</span>
+                <span class="op-7">
+
+                  <ul class="list-group">
+                    <li class="list-group-item rounded-top-0">
+                      <p class="mg-b-0"><i class="fa fa-info-circle tx-warning mg-r-8"></i><strong
+                          class="tx-inverse tx-medium">Нэр : </strong> <span class="text-muted"> Төсөвийн нэр.</span>
+                      </p>
+                    </li>
+                    <li class="list-group-item rounded-top-0">
+                      <p class="mg-b-0"><i class="fa fa-info-circle tx-warning mg-r-8"></i><strong
+                          class="tx-inverse tx-medium">Мөнгөн дүн : </strong> <span class="text-muted"> Төсөвт
+                          төлөвлөсөн мөнгөн дүн.</span></p>
+                    </li>
+
+                    <li class="list-group-item rounded-top-0">
+                      <p class="mg-b-0"><i class="fa fa-info-circle tx-warning mg-r-8"></i><strong
+                          class="tx-inverse tx-medium">Эхлэх хугацаа : </strong> <span class="text-muted"> Сарын эхний
+                          өдөр байна.</span></p>
+                    </li>
+                    <li class="list-group-item rounded-top-0">
+                      <p class="mg-b-0"><i class="fa fa-info-circle tx-warning mg-r-8"></i><strong
+                          class="tx-inverse tx-medium">Дуусах хугацаа : </strong> <span class="text-muted"> Сарын
+                          сүүлийн өдөр байна.</span></p>
+                    </li>
+                    <li class="list-group-item rounded-top-0">
+                      <p class="mg-b-0"><i class="fa fa-info-circle tx-warning mg-r-8"></i><strong
+                          class="tx-inverse tx-medium">Давтамж : </strong> <span class="text-muted">"Давтагдана"-г
+                          сонгосон тохиолдолд , сар бүрийн эхэнд өгөгдсөн мөнгөн дүнгээр шинэ төсөв үүснэ.</span></p>
+                    </li>
+                    <li class="list-group-item rounded-top-0">
+                      <p class="mg-b-0"><i class="fa fa-info-circle tx-warning mg-r-8"></i><strong
+                          class="tx-inverse tx-medium">Ангилал : </strong> <span class="text-muted"> Төсвийн
+                          ангилал.</span></p>
+                    </li>
+                  </ul>
+
+                </span></p>
+            </div>
+          </div><!-- col-6 -->
+          <div class="col-lg-6 bg-white">
+            <div class="pd-30">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" click="refreshSelection()">
+                <span aria-hidden="true">×</span>
+              </button>
+              <div class="form-layout">
+                <h6 class="br-section-label">Төсөв нэмэх</h6>
+                <p class="br-section-text">Доорх талбаруудыг бөглөнө үү.</p>
+                <div class="row">
+                  <label class="col-sm-4 form-control-label">Нэр:</label>
+                  <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                    <input type="text" [(ngModel)]="selected_budget.name" class="form-control">
+                  </div>
+
+                </div><!-- row -->
+                <div class="row mg-t-20">
+                  <label class="col-sm-4 form-control-label">Мөнгөн дүн:</label>
+                  <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                    <input type="text" class="form-control" [(ngModel)]="selected_budget.amount">
+                  </div>
+                </div>
+                <div class="row mg-t-20">
+                  <label class="col-sm-4 form-control-label">Давтамж:</label>
+                  <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                    <select class="form-control select2" [(ngModel)]="selected_budget.freq">
+                      <option value="M">Давтагдана</option>
+
+                      <option value="C">Давтагдахгүй</option>
+                    </select>
+                  </div>
+                </div>
+                <!--<div class="row mg-t-20">
+                      <label class="col-sm-4 form-control-label">Автоматаар давтах эсэх:</label>
+                      <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                        <label class="ckbox">
+                          <input type="checkbox" [(ngModel)]="selected_budget.repeat">
+                          <span></span>
+                        </label>
+  
+                        <div class="toggle-wrapper">
+                          <div class="toggle toggle-light primary"></div>
+                        </div>
+  
+  
+                      </div>
+                    </div> row -->
+
+                <div class="row mg-t-20">
+                  <label class="col-sm-4 form-control-label">Эхлэх хугацаа:</label>
+                  <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                    <input type="text" class="form-control fc-datepicker" placeholder="MM/DD/YYYY"
+                      [(ngModel)]="selected_budget.start_date">
+                  </div>
+                </div>
+                <div class="row mg-t-20">
+                  <label class="col-sm-4 form-control-label">Дуусах хугацаа:</label>
+                  <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                    <input type="text" class="form-control fc-datepicker" placeholder="MM/DD/YYYY"
+                      [(ngModel)]="selected_budget.end_date" [value]="selected_budget.end_date | date: 'MM/dd/yyyy'">
+                  </div>
+                </div>
+                <div class="row mg-t-20">
+                  <label class="col-sm-4 form-control-label">Ангилал:</label>
+                  <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                    <select class="select2 form-control" [(ngModel)]="selected_budget.category_id">
+                      <ng-container *ngFor="let cat of categories">
+                        <option [value]="cat.id" [selected]="selected_budget.category == cat.id">
+                          {{cat.name | translate}}</option>
+                      </ng-container>
+
+
+                      <!-- <option *ngFor="let cat of parents" [value]="cat.id" [attr.class]="cat.parent==null? 'optionGroup' : 'optionChild'">{{ cat.parent!=null ? "&nbsp;&nbsp;&nbsp;&nbsp;" : ""}} {{ cat.name }}</option> -->
+                    </select>
+                  </div>
+                </div>
+                <div class="row mg-t-30">
+                  <div class="col-sm-8 mg-l-auto">
+                    <div class="form-layout-footer">
+                      <button class="btn btn-info" (click)="updateBudget()"><i class="fas fa-save"></i>
+                        Хадгалах</button>
+                    </div><!-- form-layout-footer -->
+                  </div><!-- col-8 -->
+                </div>
+
+                <div class="row mg-t-30">
+                  <ng-container *ngFor="let error of errors"></ng-container>
+
+                </div>
+              </div><!-- form-layout -->
+
+            </div><!-- pd-20 -->
+          </div><!-- col-6 -->
+        </div><!-- row -->
+
+      </div><!-- modal-body -->
+    </div><!-- modal-content -->
+  </div><!-- modal-dialog -->
+</div>

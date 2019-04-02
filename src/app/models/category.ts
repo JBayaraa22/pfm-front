@@ -3,10 +3,14 @@ export interface Category{
     name : string ,
     part : PARTS ,
     translate? : boolean
-    parent? : Category
+    parent? : number,
+    children ? : Category[] ,
+    icon ? : string
+
 }
 
-enum PARTS {
+export enum PARTS {
     INCOME = "C",
     OUTCOME = "D",
+    TRANSFER = "T"
 }

@@ -6,10 +6,12 @@ export interface Budget{
     repeat? : boolean,
     end_date : string,
     start_date : string,
-    category? : number,
+    category_id? : number,
+    actual? : number,
+    [key : string] : any
 }
 
-enum FREQ_TYPE {
+export enum FREQ_TYPE {
     MONTH = "M",
     QUARTER = "Q",
     YEAR = "Y",

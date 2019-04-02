@@ -4,7 +4,19 @@
 
 export const environment = {
   production: false,
-  apiBase : "../assets/fake_backend/"
+  api : { 
+    base : "https://192.168.79.66/v1/",
+    category : 'transaction/category/',
+    transaction : 'transaction/raw/',
+    budget : 'finance/budget/',
+    token : 'finance/api-token-auth'
+  }
+  // api : {
+  //   base : "../assets/fake_backend/",
+  //   category : "categories.json",
+  //   transaction : 'transactions.json',
+  //   budget : "budgets.json"
+  // }
 };
 
 /*

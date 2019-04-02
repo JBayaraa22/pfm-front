@@ -1,0 +1,9 @@
+.maskAmount:after {
+    content : attr(data-content) "₮";
+    transition : all 0.2s ease-in-out;
+    opacity: 0;
+  }
+  
+  .maskAmount:active:after{
+    opacity: 1;
+  }

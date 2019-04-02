@@ -1,0 +1,134 @@
+[
+    {
+      "id": 0,
+      "name": "budget - Rhodes",
+      "start_date": "Sat Feb 23 2019 23:57:51 GMT+0000 (UTC)",
+      "end_date": "Thu Jun 27 2019 11:43:16 GMT+0000 (UTC)",
+      "freq": "M",
+      "amount": "7.6996",
+      "category": 10
+    },
+    {
+      "id": 1,
+      "name": "budget - Moreno",
+      "start_date": "Tue Feb 26 2019 10:43:29 GMT+0000 (UTC)",
+      "end_date": "Tue Oct 29 2019 18:17:21 GMT+0000 (UTC)",
+      "freq": "M",
+      "amount": "3.1208",
+      "category": 10
+    },
+    {
+      "id": 2,
+      "name": "budget - Kemp",
+      "start_date": "Tue Apr 09 2019 10:13:45 GMT+0000 (UTC)",
+      "end_date": "Sun Nov 24 2019 16:47:57 GMT+0000 (UTC)",
+      "freq": "C",
+      "amount": "6.9304",
+      "category": 5
+    },
+    {
+      "id": 3,
+      "name": "budget - Murray",
+      "start_date": "Wed May 15 2019 06:18:50 GMT+0000 (UTC)",
+      "end_date": "Mon Sep 09 2019 02:42:41 GMT+0000 (UTC)",
+      "freq": "C",
+      "amount": "4.7205",
+      "category": 1
+    },
+    {
+      "id": 4,
+      "name": "budget - Hogan",
+      "start_date": "Tue Dec 31 2019 01:55:39 GMT+0000 (UTC)",
+      "end_date": "Fri Jul 12 2019 07:28:31 GMT+0000 (UTC)",
+      "amount": "0.9262",
+      "category": 5
+    },
+    {
+      "id": 5,
+      "name": "budget - Cummings",
+      "start_date": "Sat Jun 22 2019 23:45:35 GMT+0000 (UTC)",
+      "end_date": "Sat Mar 02 2019 22:51:32 GMT+0000 (UTC)",
+      "freq": "Y",
+      "amount": "4.4612",
+      "category": 9
+    },
+    {
+      "id": 6,
+      "name": "budget - Berger",
+      "start_date": "Wed Mar 20 2019 21:32:17 GMT+0000 (UTC)",
+      "end_date": "Wed Nov 13 2019 03:13:29 GMT+0000 (UTC)",
+      "freq": "C",
+      "amount": "9.0025",
+      "category": 6
+    },
+    {
+      "id": 7,
+      "name": "budget - Wilcox",
+      "start_date": "Tue Nov 26 2019 21:51:44 GMT+0000 (UTC)",
+      "end_date": "Sun May 19 2019 11:19:51 GMT+0000 (UTC)",
+      "freq": "M",
+      "amount": "2.31",
+      "category": 8
+    },
+    {
+      "id": 8,
+      "name": "budget - Drake",
+      "start_date": "Wed Dec 18 2019 04:17:54 GMT+0000 (UTC)",
+      "end_date": "Thu Nov 28 2019 10:20:54 GMT+0000 (UTC)",
+      "freq": "M",
+      "amount": "5.6694",
+      "category": 3
+    },
+    {
+      "id": 9,
+      "name": "budget - Rowland",
+      "start_date": "Sun Mar 10 2019 16:26:05 GMT+0000 (UTC)",
+      "end_date": "Fri Apr 12 2019 03:09:53 GMT+0000 (UTC)",
+      "freq": "D",
+      "amount": "6.6433",
+      "category": 10
+    },
+    {
+      "id": 10,
+      "name": "budget - Santiago",
+      "start_date": "Fri Aug 02 2019 04:38:31 GMT+0000 (UTC)",
+      "end_date": "Sat Jul 06 2019 21:23:19 GMT+0000 (UTC)",
+      "freq": "C",
+      "amount": "3.2804",
+      "category": 3
+    },
+    {
+      "id": 11,
+      "name": "budget - Chapman",
+      "start_date": "Sun Nov 17 2019 20:51:56 GMT+0000 (UTC)",
+      "end_date": "Sun Aug 18 2019 07:09:03 GMT+0000 (UTC)",
+      "amount": "7.0406",
+      "category": 9
+    },
+    {
+      "id": 12,
+      "name": "budget - Boone",
+      "start_date": "Wed Jul 24 2019 01:37:52 GMT+0000 (UTC)",
+      "end_date": "Sat Feb 23 2019 06:11:37 GMT+0000 (UTC)",
+      "amount": "1.9833",
+      "category": 6
+    },
+    {
+      "id": 13,
+      "name": "budget - Finley",
+      "start_date": "Fri Mar 08 2019 09:58:15 GMT+0000 (UTC)",
+      "end_date": "Wed Dec 04 2019 12:42:58 GMT+0000 (UTC)",
+      "freq": "M",
+      "amount": "8.1303",
+      "category": 3
+    },
+    {
+      "id": 14,
+      "name": "budget - Moran",
+      "start_date": "Mon Sep 02 2019 03:21:45 GMT+0000 (UTC)",
+      "end_date": "Fri Apr 26 2019 07:13:06 GMT+0000 (UTC)",
+      "freq": "M",
+      "amount": "5.3454",
+      "category": 2
+    }
+  ]

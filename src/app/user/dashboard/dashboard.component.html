@@ -1,3 +1,7 @@
+<div class="spin-wrapper loading-custom-spinner" *ngIf="loading">
+  <div class="spinner">
+  </div>
+</div>
 <div class="br-pagetitle">
   <i class="fas fa-home fa-4x"></i>
   <div>
@@ -7,5 +11,218 @@
 </div>
 
 <div class="br-pagebody">
+
+    <div class="row row-sm mg-t-20 mg-b-20">
+        <div class="col-sm-12 col-lg-6 mg-b-20">
+          <div class="bg-white rounded shadow-base overflow-hidden pd-b-15">
+            <div class="pd-x-20 pd-t-20 d-flex align-items-center">
+              <i class="fas fa-credit-card fa-1x tx-80 lh-0 tx-primary op-5"></i>
+              <div class="mg-l-20">
+                <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-10">Нийт орлого</p>
+                <ng-container *ngIf="mask.amount; else dontMaskCredit">
+                  <p class="tx-32 tx-lato tx-black mg-b-0 lh-1 maskedAmount" [attr.data-content]="credit_amount | number : '1.2-2'">
+                    <i class="fas fa-1x fa-user-lock"></i>
+                  </p>
+                </ng-container>
+                <ng-template #dontMaskCredit>
+                    <p class="tx-32 tx-inverse tx-lato tx-black mg-b-0 lh-1">{{ credit_amount | number : '1.2-2' }} ₮</p>
+                </ng-template>
+                
+                <span class="tx-12 tx-roboto tx-gray-600">Өгөгдсөн хугацаан дахь дүн</span>
+              </div>
+            </div>
+          </div>
+        </div><!-- col-4 -->
+        <div class="col-sm-12 col-lg-6 mg-t-20 mg-sm-t-0">
+          <div class="bg-white rounded shadow-base overflow-hidden pd-b-15">
+            <div class="pd-x-20 pd-t-20 d-flex align-items-center">
+              <i class="fas fa-receipt fa-1x tx-80 lh-0 tx-purple op-5"></i>
+              <div class="mg-l-20">
+                <p class="tx-10 tx-spacing-1 tx-mont tx-semibold tx-uppercase mg-b-10">Нийт зарлага</p>
+                <ng-container *ngIf="mask.amount; else dontMaskDebit">
+                    <p class="tx-32 tx-inverse tx-lato maskedAmount tx-black mg-b-0 lh-1" [attr.data-content]="debit_amount | number : '1.2-2'">
+                      <i class="fas fa-1x fa-user-lock"></i>
+                    </p>
   
+                  </ng-container>
+                  <ng-template #dontMaskDebit>
+                      <p class="tx-32 tx-inverse tx-lato tx-black mg-b-0 lh-1">{{ debit_amount | number : '1.2-2' }} ₮</p> 
+                  </ng-template>
+                <span class="tx-12 tx-roboto tx-gray-600">Өгөгдсөн хугацаан дахь дүн</span>
+              </div>
+            </div>
+          </div>
+        </div><!-- col-4 -->
+        
+      </div>
+
+  <div class="row row-sm">
+    <div class="col-sm-6">
+      <div class="card shadow-base bd-0">
+        <div class="card-header pd-20 bg-transparent">
+          <h6 class="card-title tx-uppercase tx-12 mg-b-0">Ангилалын график</h6>
+        </div><!-- card-header -->
+        <div class="pd-50"><canvas id="categoryChart" width="500" height="500"></canvas></div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card shadow-base bd-0">
+        <div class="card-header pd-20 bg-transparent">
+          <h6 class="card-title tx-uppercase tx-12 mg-b-0">Сүүлд хийсэн гүйлгээнүүд</h6>
+        </div><!-- card-header -->
+        <table class="table table-responsive mg-b-0 tx-12">
+          <thead>
+            <tr class="tx-10">
+              <th class="wd-10p pd-y-5">{{ 'INDEX' | translate }}</th>
+              <th class="pd-y-5">{{'ACCOUNT_NUM' | translate}}</th>
+              <th class="pd-y-5">{{ 'AMOUNT' | translate }}</th>
+              <th class="pd-y-5">{{ 'PART' | translate }}</th>
+              <th class="pd-y-5">{{ 'TRAN_DATE' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="recent_transactions.length > 0 else emptyTransactionList">
+            <ng-container *ngFor="let txn of recent_transactions; let i = index">
+              <ng-container *ngIf="i<10">
+                <tr>
+                  <td class="pd-l-20">
+                    {{ i + 1 }}
+                  </td>
+                  <td>
+                    <a href="javascript:void(0)"
+                      class="tx-inverse tx-14 tx-medium d-block">{{ getAccountNumber(txn.account_id) }}</a>
+                    <span class="tx-11  tx-info d-block"> {{getCategoryName(txn.tran_category) | translate}}</span>
+                  </td>
+          
+                  <td class="valign-middle tx-center"> <span *ngIf="mask.amount else dontMaskAmount" class="maskAmount" [attr.data-content]="txn.amount_mnt"> <i class="far fa-eye fa-1x"></i>&nbsp;</span>
+                    <ng-template #dontMaskAmount>
+                        <span> {{txn.amount_mnt}} &nbsp; ₮ </span>
+                    </ng-template>
+                    
+                    </td>
+
+                  <td class="valign-middle tx-center">
+                    <span [ngSwitch]="txn.tran_part">
+                      <p *ngSwitchCase="'D'">
+                        <span class="square-8 bg-danger mg-r-5 rounded-circle"></span> Зарлага
+                      </p>
+                      <p *ngSwitchCase="'C'">
+                        <span class="square-8 bg-success mg-r-5 rounded-circle"></span> Орлого
+                      </p>
+                      <p *ngSwitchDefault>
+                        <span class="square-8 bg-info mg-r-5 rounded-circle"></span> Шилжүүлэг
+                      </p>
+                    </span>
+                  </td>
+                  <td class="valign-middle">
+                    {{ txn.tran_date }}
+                  </td>
+                </tr>
+              </ng-container>
+
+
+            </ng-container>
+
+          </tbody>
+          <ng-template #emptyTransactionList>
+
+            <tfoot>
+              <tr>
+                <td colspan="5">
+                    
+                        <div class="alert alert-info" role="alert">
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                          </button>
+                          <div class="d-flex align-items-center justify-content-start">
+                              <i _ngcontent-c5="" class="fas fa-info-circle fa-2x"></i>
+                            <span><strong>Гүйлгээ хийгээгүй байна!</strong>.</span>
+                          </div><!-- d-flex -->
+                        </div>
+                      
+                </td>
+              </tr>
+            </tfoot>
+
+          </ng-template>
+          
+        </table>
+        <div class="card-footer tx-12 pd-y-15 bg-transparent">
+          <a routerLink="/user/transaction"><i class="fa fa-angle-down mg-r-5"></i>Бүх гүйлгээг харах</a>
+        </div><!-- card-footer -->
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-base bd-0 mg-t-20">
+    <div class="card-header bg-transparent pd-x-25 pd-y-15 bd-b-0 d-flex justify-content-between align-items-center">
+      <h6 class="card-title tx-uppercase tx-12 mg-b-0">Төсвийн жагсаалт</h6>
+      <a href="" class="tx-gray-500 hover-info lh-0"><i class="icon ion-android-more-horizontal tx-24 lh-0"></i></a>
+    </div><!-- card-header -->
+    <div class="card-body pd-x-25 pd-b-25 pd-t-0">
+        <div class="row row-sm mg-t-20 no-gutters">
+            <ng-container *ngIf="budgets.length > 0 else emptyBudgetList">
+              <div class="col-sm-6 col-lg-4 mg-t-20"  *ngFor="let budget of budgets">
+                <div class="card bd-1" [ngClass]="{'bg-danger': budget.part=='D'}">
+                  <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+                    <h6 class="card-title tx-uppercase tx-12 mg-b-0">{{ budget.name }}</h6>
+                    <span class="tx-12 tx-uppercase"> {{ getCategoryName(budget.category_id) | translate}} </span>
+                  </div><!-- card-header -->
+                  <div class="card-body">
+                    <p class="tx-sm tx-inverse tx-medium mg-b-0">{{ 'AVAILABLE_AMOUNT' | translate }} : <span
+                        class="tx-success">{{ (budget.amount - budget.actual) > 0 ? (budget.amount - budget.actual) : 0  | number : '1.2-2'}} ₮</span></p>
+                    <p class="tx-11">{{'AMOUNT_BUDGET' | translate}} : <span class="tx-warning">{{ budget.amount | number : '1.2-2' }} ₮  </span></p>
+                    <div class="row align-items-center">
+                      <div class="col-4 tx-12 tx-inverse tx-medium">{{'SPENT' | translate}}</div>
+                      <div class="col-8">
+                        <ng-container *ngIf="getPercentage(budget) >= 100; else budgetOk ">
+                          <div class="progress rounded-0 mg-b-0">
+                            <div class="progress-bar bg-danger lh-3" [ngStyle]="{'width': getPercentage(budget) + '%'}"
+                              role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+                          </div><!-- progress -->
+                        </ng-container>
+                        <ng-template #budgetOk>
+                          <ng-container *ngIf="getPercentage(budget) > 90; else warnBudget">
+                            <div class="progress rounded-0 mg-b-0">
+                              <div class="progress-bar bg-warning lh-3" [ngStyle]="{'width': getPercentage(budget) + '%'}"
+                                role="progressbar" aria-valuenow="getPercentage(budget)" aria-valuemin="0" aria-valuemax="100">
+                                {{getPercentage(budget) | number : '1.2-2'}}%</div>
+                            </div><!-- progress -->
+                          </ng-container>
+                          <ng-template #warnBudget>
+                            <div class="progress rounded-0 mg-b-0">
+                              <div class="progress-bar bg-success lh-3" [ngStyle]="{'width': getPercentage(budget) + '%'}"
+                                role="progressbar" aria-valuenow="getPercentage(budget)" aria-valuemin="0" aria-valuemax="100">
+                                {{getPercentage(budget) | number : '1.2-2'}}%</div>
+                            </div><!-- progress -->
+                          </ng-template>
+                        </ng-template>
+        
+        
+                      </div><!-- col-8 -->
+                    </div><!-- row -->
+                    <p class="tx-11 mg-b-0 mg-t-15">Төсөвийн огноо : {{budget.start_date }} -аас {{budget.end_date}} хүртэл</p>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #emptyBudgetList>
+                <div class="col-xl-12">
+                    <div class="alert alert-info" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                      <div class="d-flex align-items-center justify-content-start">
+                          <i _ngcontent-c5="" class="fas fa-info-circle fa-2x"></i>
+                        <span><strong> Төсөв үүсгээгүй байна!</strong>.</span>
+                      </div><!-- d-flex -->
+                    </div>
+                  </div>
+            </ng-template>
+            
+          </div>
+      </div>
+  </div>
+
+
+
 </div>
